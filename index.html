@@ -385,7 +385,7 @@ function placeholderSVG(seed) {
 function renderProjectList(type) {
   const container = document.getElementById('scroll-' + type);
   container.innerHTML = '';
-  const list = PROJECTS.filter(p => p.type === type);
+  const list = PROJECTS.filter(p => p.type === type).sort((a, b) => b.year - a.year);
   list.forEach((p, i) => {
     const src = p.images && p.images[0] ? p.images[0] : null;
     const imgHTML = src
