@@ -52,9 +52,9 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 }
 
 .nav-left a {
-  font-size: 16px; font-weight: 500;
+  font-size: 16px; font-weight: 600;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--black); padding: 16px 0;
+  color: var(--black); padding: 12px 0;
   opacity: 1; transition: opacity 0.2s; display: block;
 }
 
@@ -71,12 +71,15 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 
 .nav-sub a {
   font-size: 14px;
-  padding: 6px 0;
+  padding: 10px 0;
   opacity: 1;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.nav-sub a.active { opacity: 0.3; }
+.nav-left a.active {
+  opacity: 1;
+  text-decoration: line-through;
+}
 .nav-sub a:hover  { opacity: 0.5; }
 
 /* ── FOOTER ── */
