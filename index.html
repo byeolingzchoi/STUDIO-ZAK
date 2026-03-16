@@ -144,12 +144,17 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   gap: 100px;
 }
 
-.proj-entry { display: flex; flex-direction: column; gap: 20px; }
+.proj-entry {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+}
 
 .proj-entry-img {
-  width: 100%;
+  width: 55vw;
   max-width: 640px;
-  background: #f4f4f2;
+  flex-shrink: 0;
 }
 
 .proj-entry-img img,
@@ -158,7 +163,9 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   object-fit: contain;
 }
 
-.proj-entry-info { }
+.proj-entry-info {
+  padding-top: 0;
+}
 
 .proj-entry-name {
   font-size: 15px; font-weight: 400;
