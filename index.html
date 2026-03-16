@@ -434,10 +434,14 @@ function go(target) {
 
   // open sub nav if interior/furniture selected
   if (target === 'interior' || target === 'furniture') {
-    projNavOpen = true;
-    document.getElementById('nav-sub').classList.add('open');
-    document.getElementById('nav-project').style.opacity = '1';
-  }
+  projNavOpen = true;
+  document.getElementById('nav-sub').classList.add('open');
+  document.getElementById('nav-project').style.opacity = '1';
+} else {
+  projNavOpen = false;
+  document.getElementById('nav-sub').classList.remove('open');
+  document.getElementById('nav-project').style.opacity = '1';
+}
 
   // mobile nav
   allPages.forEach(p => {
