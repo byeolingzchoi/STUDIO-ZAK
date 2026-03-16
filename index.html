@@ -58,7 +58,10 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   opacity: 1; transition: opacity 0.2s; display: block;
 }
 
-.nav-left a.active { opacity: 0.3; }
+.nav-left a.active {
+  opacity: 1;
+  text-decoration: line-through;
+}
 .nav-left a:hover  { opacity: 0.5; }
 
 /* sub nav under PROJECT */
@@ -76,8 +79,8 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.nav-left a.active {
-  opacity: 1;
+.nav-sub a.active {
+  opacity: 0.3;
   text-decoration: line-through;
 }
 .nav-sub a:hover  { opacity: 0.5; }
