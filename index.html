@@ -218,6 +218,10 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   .about-meta { grid-template-columns:1fr; }
   .proj-entry-img { max-width:100%; }
 }
+  /* lightbox */
+.lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:999; align-items:center; justify-content:center; cursor:zoom-out; }
+.lightbox.on { display:flex; }
+.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; }
 </style>
 </head>
 <body>
@@ -271,6 +275,19 @@ const PROJECTS = [
     ]
   }
 ];
+  // lightbox
+document.body.insertAdjacentHTML('beforeend', '<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lb-img" src=""></div>');
+
+function openLightbox(src) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lightbox').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('on');
+  document.body.style.overflow = '';
+}
 </script>
 <!-- ══════════════════════════════════ -->
 
@@ -389,7 +406,7 @@ function renderProjectList(type) {
   list.forEach((p, i) => {
     const src = p.images && p.images[0] ? p.images[0] : null;
     const imgHTML = src
-      ? `<img src="${src}" alt="${p.name}" style="width:100%;display:block;object-fit:contain;background:#f8f8f6;">`
+      ? `<img src="${src}" alt="${p.name}" style="width:100%;display:block;object-fit:contain;background:#f8f8f6;cursor:zoom-in;" onclick="openLightbox('${src}')">`
       : placeholderSVG(i);
     const meta = [p.cat, p.size, p.year].filter(Boolean).join('<br>');
     container.innerHTML += `
