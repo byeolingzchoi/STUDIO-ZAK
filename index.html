@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO ZAK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --black: #111111;
+  --mid:   #999999;
+  --light: #e8e8e8;
+  --f: 'EB Garamond', Georgia, serif;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--f);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+button { background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+
+/* ── PAGES ── */
+.page { display: none; min-height: 100vh; position: relative; }
+.page.active { display: block; }
+
+/* ── LOGO (top-left, fixed) ── */
+.site-logo {
+  position: fixed;
+  top: 28px; left: 32px;
+  font-family: var(--f);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 100;
+  cursor: pointer;
+}
+
+/* ── LEFT NAV (bottom-left, fixed) ── */
+.nav-left {
+  position: fixed;
+  bottom: 60px; left: 32px;
+  display: flex; flex-direction: column;
+  gap: 0; z-index: 100;
+}
+
+.nav-left a {
+  font-family: var(--f);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--black);
+  padding: 7px 0;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+  display: block;
+}
+
+.nav-left a.active { opacity: 1; }
+.nav-left a:hover  { opacity: 0.75; }
+
+/* ── FOOTER ── */
+.site-footer {
+  position: fixed;
+  bottom: 22px; left: 0; right: 0;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--mid);
+  z-index: 50;
+}
+
+/* ════════════════════════════════
+   HOME PAGE
+════════════════════════════════ */
+#page-home {
+  display: none;
+  align-items: flex-start;
+}
+#page-home.active { display: flex; }
+
+.home-inner {
+  margin-left: 240px;
+  padding: 60px 80px 100px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.home-image {
+  width: 43vw; max-width: 560px;
+  flex-shrink: 0;
+  margin-top: 20px;
+}
+
+.home-image svg, .home-image img {
+  width: 100%; display: block;
+}
+
+.home-body {
+  max-width: 310px;
+  padding-top: 24px;
+}
+
+.home-body p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.85;
+  margin-bottom: 1.3em;
+  color: var(--black);
+}
+.home-body p:last-child { margin-bottom: 0; }
+
+/* ════════════════════════════════
+   ABOUT PAGE
+════════════════════════════════ */
+.about-inner {
+  margin-left: 240px;
+  padding: 80px 80px 100px 0;
+  max-width: 600px;
+}
+
+.about-inner h1 {
+  font-family: var(--f);
+  font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  margin-bottom: 2.4rem;
+}
+
+.about-inner p {
+  font-size: 14px;
+  line-height: 1.9;
+  margin-bottom: 1.3em;
+  max-width: 480px;
+}
+
+.about-meta {
+  margin-top: 2.8rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--light);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem 2rem;
+}
+
+.about-meta-item label {
+  display: block; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--mid); margin-bottom: 0.35rem;
+}
+
+.about-meta-item span { font-size: 13.5px; }
+
+/* ════════════════════════════════
+   PROJECT PAGE  (Framer layout)
+   Left: large image + arrow nav
+   Right: title / info
+════════════════════════════════ */
+#page-project.active { display: block; }
+
+.project-view {
+  margin-left: 240px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 60px 60px 100px 0;
+  gap: 50px;
+}
+
+.project-img-wrap {
+  flex: 0 0 55vw;
+  max-width: 700px;
+  position: relative;
+}
+
+.project-img-wrap img,
+.project-img-wrap svg {
+  width: 100%; display: block;
+  aspect-ratio: 4/3.2;
+  object-fit: contain;
+  background: #f8f8f6;
+}
+
+/* prev/next arrows */
+.proj-arrow {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid var(--light);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.2s;
+  font-size: 14px; color: var(--black);
+}
+.proj-arrow:hover { background: rgba(255,255,255,1); }
+.proj-arrow.left  { left: -18px; }
+.proj-arrow.right { right: -18px; }
+
+.project-info {
+  flex: 1;
+  padding-top: 0;
+}
+
+.project-info-name {
+  font-family: var(--f);
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin-bottom: 1.6rem;
+  line-height: 1.2;
+}
+
+.project-info-meta {
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+
+.project-info-meta span {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--black);
+}
+
+/* image dot indicators */
+.proj-dots {
+  display: flex; gap: 6px;
+  margin-top: 20px;
+}
+
+.proj-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--light);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.proj-dot.on { background: var(--black); }
+
+/* ════════════════════════════════
+   ARCHIVE PAGE
+════════════════════════════════ */
+.archive-inner {
+  margin-left: 240px;
+  padding: 80px 60px 100px 0;
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.archive-item {
+  aspect-ratio: 3/4;
+  overflow: hidden; cursor: pointer;
+  position: relative; background: #f4f4f2;
+}
+
+.archive-item img,
+.archive-item svg {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.55s cubic-bezier(.25,.46,.45,.94);
+}
+
+.archive-item:hover img,
+.archive-item:hover svg { transform: scale(1.04); }
+
+.archive-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 12px; font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--mid); opacity: 0; transition: opacity 0.25s;
+  background: linear-gradient(transparent, rgba(255,255,255,.9));
+}
+.archive-item:hover .archive-label { opacity: 1; }
+
+/* ════════════════════════════════
+   CONTACT PAGE
+════════════════════════════════ */
+.contact-inner {
+  margin-left: 240px;
+  padding: 80px 80px 100px 0;
+  max-width: 520px;
+}
+
+.contact-inner h2 {
+  font-family: var(--f);
+  font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+  font-weight: 400; font-style: italic;
+  line-height: 1.2; margin-bottom: 3rem;
+}
+
+.contact-row {
+  display: flex; justify-content: space-between;
+  align-items: baseline; gap: 40px;
+  border-bottom: 1px solid var(--light);
+  padding: 14px 0;
+}
+.contact-row:first-of-type { border-top: 1px solid var(--light); }
+
+.c-label {
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mid); flex-shrink: 0;
+}
+.c-val {
+  font-size: 13.5px; color: var(--mid);
+  font-style: italic; text-align: right;
+}
+
+/* ════════════════════════════════
+   MOBILE
+════════════════════════════════ */
+.m-header {
+  display: none; position: fixed;
+  top: 0; left: 0; right: 0; height: 52px;
+  align-items: center; justify-content: space-between;
+  padding: 0 20px; z-index: 200;
+  background: var(--white);
+}
+.m-logo { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+.burger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
+.burger span { display: block; width: 20px; height: 1px; background: var(--black); }
+
+.m-nav {
+  display: none; position: fixed; inset: 0;
+  background: var(--white); z-index: 190;
+  flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 0 32px; gap: 0;
+}
+.m-nav.open { display: flex; }
+.m-nav a {
+  font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 400; padding: 13px 0; color: var(--black);
+  opacity: 0.3; transition: opacity 0.2s; display: block;
+}
+.m-nav a.active, .m-nav a:hover { opacity: 1; }
+
+@media (max-width: 800px) {
+  .site-logo, .nav-left, .site-footer { display: none; }
+  .m-header { display: flex; }
+
+  .home-inner, .about-inner, .archive-inner, .contact-inner { margin-left: 0; padding: 72px 20px 80px; }
+  .project-view { margin-left: 0; padding: 72px 20px 80px; flex-direction: column; gap: 24px; }
+
+  .home-inner { flex-direction: column; gap: 24px; }
+  .home-image { width: 100%; max-width: 100%; margin-top: 0; }
+  .home-body { max-width: 100%; padding-top: 0; }
+
+  .project-img-wrap { flex: none; width: 100%; max-width: 100%; }
+  .archive-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-meta { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+  ✏️  프로젝트 데이터  —  여기만 수정하세요!
+  
+  각 프로젝트:
+    name   : 프로젝트 이름
+    cat    : 카테고리 (Furniture / Residential / Installation 등)
+    size   : 사이즈 (없으면 "" 로)
+    year   : 연도
+    images : 이미지 URL 배열 (없으면 "" 로 두면 회색 박스)
+    
+  프로젝트 추가: { } 블록을 복사해서 아래에 붙여넣기
+══════════════════════════════════ -->
+<script>
+const PROJECTS = [
+  {
+    name:   "3A4B",
+    cat:    "Storage",
+    size:   "1180×490×1030mmH",
+    year:   "2023",
+    images: [""] // 실제 이미지 URL을 따옴표 안에 넣으세요
+  },
+  {
+    name:   "Unnamed Residence",
+    cat:    "Residential",
+    size:   "",
+    year:   "2024",
+    images: [""]
+  },
+  {
+    name:   "—",
+    cat:    "Installation",
+    size:   "",
+    year:   "2023",
+    images: [""]
+  },
+  {
+    name:   "—",
+    cat:    "Furniture",
+    size:   "",
+    year:   "2022",
+    images: [""]
+  },
+];
+</script>
+<!-- ══════════════════════════════════ -->
+
+<!-- LOGO -->
+<div class="site-logo" onclick="go('home')">STUDIO ZAK</div>
+
+<!-- LEFT NAV -->
+<nav class="nav-left">
+  <a href="#" onclick="go('about')"   id="nav-about">ABOUT</a>
+  <a href="#" onclick="go('project')" id="nav-project">PROJECT</a>
+  <a href="#" onclick="go('archive')" id="nav-archive">ARCHIVE</a>
+  <a href="#" onclick="go('contact')" id="nav-contact">CONTACT</a>
+</nav>
+
+<!-- FOOTER -->
+<div class="site-footer">@studiozak · Seoul</div>
+
+<!-- MOBILE HEADER -->
+<div class="m-header">
+  <span class="m-logo" onclick="go('home');closeMobile()">STUDIO ZAK</span>
+  <div class="burger" onclick="toggleMobile()"><span></span><span></span></div>
+</div>
+<div class="m-nav" id="mNav">
+  <a href="#" onclick="go('home');closeMobile()"    id="mn-home">Home</a>
+  <a href="#" onclick="go('about');closeMobile()"   id="mn-about">About</a>
+  <a href="#" onclick="go('project');closeMobile()" id="mn-project">Project</a>
+  <a href="#" onclick="go('archive');closeMobile()" id="mn-archive">Archive</a>
+  <a href="#" onclick="go('contact');closeMobile()" id="mn-contact">Contact</a>
+</div>
+
+<!-- ════════ HOME ════════ -->
+<div id="page-home" class="page active">
+  <div class="home-inner">
+    <div class="home-image">
+      <svg viewBox="0 0 560 490" xmlns="http://www.w3.org/2000/svg">
+        <rect width="560" height="490" fill="#f0eeea"/>
+        <rect x="0" y="375" width="560" height="115" fill="#c8c4bc"/>
+        <rect x="0" y="370" width="560" height="8" fill="#b4b0a8" opacity="0.3"/>
+        <rect x="308" y="44" width="186" height="210" fill="#e6e3de" stroke="#d4d1cc" stroke-width="1"/>
+        <rect x="318" y="54" width="166" height="190" fill="#dedad5"/>
+        <rect x="320" y="56" width="80" height="186" fill="#eae8e4" opacity="0.5"/>
+        <line x1="400" y1="54" x2="400" y2="244" stroke="#ccc9c4" stroke-width="1.5"/>
+        <rect x="234" y="98" width="68" height="126" fill="#e6e3de" stroke="#d4d1cc" stroke-width="1"/>
+        <rect x="242" y="106" width="52" height="110" fill="#dedad5" opacity="0.9"/>
+        <rect x="56" y="328" width="310" height="11" fill="#1a1816" rx="1"/>
+        <rect x="96" y="339" width="13" height="42" fill="#1a1816"/>
+        <rect x="336" y="339" width="13" height="42" fill="#1a1816"/>
+        <rect x="196" y="308" width="28" height="20" fill="#242220" rx="1"/>
+        <rect x="232" y="314" width="16" height="14" fill="#242220" rx="1"/>
+      </svg>
+    </div>
+    <div class="home-body">
+      <p>With an architectural attitude rooted in the pursuit of excellence, we operate as a design studio that connects space, furniture, and installation through rigorous architectural experimentation.</p>
+      <p>Space remains in place, yet it continuously evolves through its users. We engage with these organic transformations and design environments that generate a broader, positive impact on society.</p>
+      <p>Through the exploration of new perspectives and materiality, we strive to create spaces that resonate deeply with human perception and everyday life.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ABOUT ════════ -->
+<div id="page-about" class="page">
+  <div class="about-inner">
+    <h1>Studio Zak<br><em>is a Seoul-based<br>design studio.</em></h1>
+    <p>We work at the intersection of space, furniture, and installation — connecting disciplines through rigorous architectural experimentation.</p>
+    <p>Founded with a commitment to excellence, we engage with the organic transformations of space and its users. Our practice is driven by the belief that well-designed environments generate a broader, positive impact on the lives of those who inhabit them.</p>
+    <p>Each project begins with deep observation — of site, material, light, and the people who will dwell within the space.</p>
+    <div class="about-meta">
+      <div class="about-meta-item"><label>Location</label><span>Seoul, Korea</span></div>
+      <div class="about-meta-item"><label>Founded</label><span>—</span></div>
+      <div class="about-meta-item"><label>Instagram</label><span>@studiozak</span></div>
+      <div class="about-meta-item"><label>Contact</label><span>—</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ PROJECT ════════ -->
+<div id="page-project" class="page">
+  <div class="project-view">
+    <div class="project-img-wrap">
+      <div id="proj-img-slot"></div>
+      <button class="proj-arrow left"  onclick="projNav(-1)">&#8249;</button>
+      <button class="proj-arrow right" onclick="projNav(+1)">&#8250;</button>
+    </div>
+    <div class="project-info">
+      <div class="project-info-name" id="proj-name"></div>
+      <div class="project-info-meta" id="proj-meta"></div>
+      <div class="proj-dots" id="proj-dots"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ARCHIVE ════════ -->
+<div id="page-archive" class="page">
+  <div class="archive-inner">
+    <div class="archive-grid" id="archive-grid"></div>
+  </div>
+</div>
+
+<!-- ════════ CONTACT ════════ -->
+<div id="page-contact" class="page">
+  <div class="contact-inner">
+    <h2>Get in<br><em>touch.</em></h2>
+    <div class="contact-row"><span class="c-label">Studio</span><span class="c-val">Seoul, Korea</span></div>
+    <div class="contact-row"><span class="c-label">Email</span><span class="c-val">—</span></div>
+    <div class="contact-row"><span class="c-label">Phone</span><span class="c-val">—</span></div>
+    <div class="contact-row"><span class="c-label">Instagram</span><span class="c-val">@studiozak</span></div>
+    <div class="contact-row"><span class="c-label">New Business</span><span class="c-val">—</span></div>
+  </div>
+</div>
+
+<script>
+/* ── STATE ── */
+let currentPage = 'home';
+let projIndex   = 0;   // which project
+let imgIndex    = 0;   // which image within project
+
+/* ── PLACEHOLDER SVG ── */
+function placeholderSVG(seed) {
+  const fills = ['#eceae4','#e8e6e0','#f0ede6','#e4e2dc'];
+  const f = fills[seed % fills.length];
+  return `<svg viewBox="0 0 560 448" xmlns="http://www.w3.org/2000/svg" style="aspect-ratio:4/3.2;width:100%;display:block;background:#f8f8f6">
+    <rect width="560" height="448" fill="${f}"/>
+    <rect x="60" y="60" width="440" height="328" fill="none" stroke="#ddd9d2" stroke-width="1"/>
+  </svg>`;
+}
+
+/* ── BUILD PROJECT VIEW ── */
+function renderProject() {
+  const p = PROJECTS[projIndex];
+
+  // image
+  const slot = document.getElementById('proj-img-slot');
+  const src  = p.images && p.images[imgIndex] ? p.images[imgIndex] : null;
+  if (src) {
+    slot.innerHTML = `<img src="${src}" alt="${p.name}" style="aspect-ratio:4/3.2;width:100%;object-fit:contain;background:#f8f8f6">`;
+  } else {
+    slot.innerHTML = placeholderSVG(projIndex);
+  }
+
+  // name
+  document.getElementById('proj-name').textContent = p.name;
+
+  // meta
+  const metaEl = document.getElementById('proj-meta');
+  metaEl.innerHTML = '';
+  if (p.cat)  metaEl.innerHTML += `<span>${p.cat}</span>`;
+  if (p.size) metaEl.innerHTML += `<span>${p.size}</span>`;
+  if (p.year) metaEl.innerHTML += `<span>${p.year}</span>`;
+
+  // dots (per image)
+  const dots = document.getElementById('proj-dots');
+  const total = (p.images && p.images.filter(Boolean).length > 1) ? p.images.filter(Boolean).length : 0;
+  dots.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'proj-dot' + (i === imgIndex ? ' on' : '');
+    const ii = i;
+    d.onclick = () => { imgIndex = ii; renderProject(); };
+    dots.appendChild(d);
+  }
+
+  // show/hide arrows based on project count
+  document.querySelector('.proj-arrow.left').style.opacity  = PROJECTS.length > 1 ? '1' : '0';
+  document.querySelector('.proj-arrow.right').style.opacity = PROJECTS.length > 1 ? '1' : '0';
+}
+
+function projNav(dir) {
+  projIndex = (projIndex + dir + PROJECTS.length) % PROJECTS.length;
+  imgIndex  = 0;
+  renderProject();
+}
+
+/* ── BUILD ARCHIVE ── */
+function renderArchive() {
+  const grid = document.getElementById('archive-grid');
+  grid.innerHTML = '';
+  PROJECTS.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'archive-item';
+    item.onclick = () => { projIndex = i; imgIndex = 0; go('project'); };
+    const src = p.images && p.images[0] ? p.images[0] : null;
+    if (src) {
+      item.innerHTML = `<img src="${src}" alt="${p.name}">`;
+    } else {
+      item.innerHTML = placeholderSVG(i);
+    }
+    item.innerHTML += `<div class="archive-label">${p.name} · ${p.year}</div>`;
+    grid.appendChild(item);
+  });
+}
+
+/* ── NAVIGATION ── */
+const allPages = ['home','about','project','archive','contact'];
+
+function go(target) {
+  currentPage = target;
+
+  allPages.forEach(p => {
+    document.getElementById('page-' + p).classList.toggle('active', p === target);
+  });
+
+  // nav active states
+  ['about','project','archive','contact'].forEach(p => {
+    const el = document.getElementById('nav-' + p);
+    if (el) el.classList.toggle('active', p === target);
+    const mel = document.getElementById('mn-' + p);
+    if (mel) mel.classList.toggle('active', p === target);
+  });
+  const mhome = document.getElementById('mn-home');
+  if (mhome) mhome.classList.toggle('active', target === 'home');
+
+  // lazy render
+  if (target === 'project') { imgIndex = 0; renderProject(); }
+  if (target === 'archive') renderArchive();
+
+  window.scrollTo(0, 0);
+  return false;
+}
+
+/* ── MOBILE ── */
+function toggleMobile() { document.getElementById('mNav').classList.toggle('open'); }
+function closeMobile()  { document.getElementById('mNav').classList.remove('open'); }
+
+document.addEventListener('click', e => {
+  const nav = document.getElementById('mNav');
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !e.target.closest('.burger')) closeMobile();
+});
+</script>
+</body>
+</html>
