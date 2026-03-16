@@ -176,9 +176,9 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 .burger span { display:block; width:20px; height:1px; background:var(--black); }
 .m-nav { display:none; position:fixed; inset:0; background:var(--white); z-index:190; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 32px; gap:0; }
 .m-nav.open { display:flex; }
-.m-nav a { font-size:14px; letter-spacing:0.1em; text-transform:uppercase; font-weight:400; padding:12px 0; color:var(--black); opacity:0.3; transition:opacity 0.2s; display:block; }
+.m-nav a { font-size:14px; letter-spacing:0.1em; text-transform:uppercase; font-weight:400; padding:12px 0; color:var(--black); opacity:1; transition:opacity 0.2s; display:block; }
 .m-nav a.sub { font-size:12px; padding:8px 0 8px 16px; }
-.m-nav a.active, .m-nav a:hover { opacity:1; }
+.m-nav a.active, .m-nav a:hover { opacity:0.3; }
 
 @media (max-width: 800px) {
   .site-logo, .nav-left, .site-footer { display:none; }
