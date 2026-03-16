@@ -189,14 +189,14 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 
 /* ════════ MOBILE ════════ */
 .m-header { display:none; position:fixed; top:0; left:0; right:0; height:52px; align-items:center; justify-content:space-between; padding:0 20px; z-index:200; background:var(--white); }
-.m-logo { font-size:12px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; }
+.m-logo { font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
 .burger { display:flex; flex-direction:column; gap:5px; cursor:pointer; }
 .burger span { display:block; width:20px; height:1px; background:var(--black); }
 .m-nav { display:none; position:fixed; inset:0; background:var(--white); z-index:190; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 32px; gap:0; }
 .m-nav.open { display:flex; }
 .m-nav a { font-size:14px; letter-spacing:0.1em; text-transform:uppercase; font-weight:500; padding:12px 0; color:var(--black); opacity:1; transition:opacity 0.2s; display:block; }
 .m-nav a.sub { font-size:12px; padding:8px 0 8px 16px; }
-.m-nav a.active { opacity:0.3; }
+.m-nav a.active { opacity: 0.3; text-decoration: line-through; }
 .m-nav a:hover { opacity:0.5; }
 
 @media (max-width: 800px) {
