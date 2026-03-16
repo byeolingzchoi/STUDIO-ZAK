@@ -176,11 +176,10 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 
 .project-view {
   margin-left: 240px;
-  min-height: 100vh;
+  padding: 80px 80px 100px 60px;
   display: flex;
-  align-items: center;
-  padding: 60px 60px 100px 0;
-  gap: 50px;
+  flex-direction: column;
+  gap: 120px;
 }
 
 .project-img-wrap {
@@ -543,8 +542,23 @@ function placeholderSVG(seed) {
 
 /* ── BUILD PROJECT VIEW ── */
 function renderProject() {
-  const p = PROJECTS[projIndex];
-
+  const container = document.querySelector('.project-view');
+  container.innerHTML = '';
+  PROJECTS.forEach((p, i) => {
+    const src = p.images && p.images[0] ? p.images[0] : null;
+    const imgHTML = src
+      ? `<img src="${src}" alt="${p.name}" style="width:100%;display:block;object-fit:contain;background:#f8f8f6;">`
+      : placeholderSVG(i);
+    container.innerHTML += `
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        ${imgHTML}
+        <div>
+          <div style="font-size:15px; font-weight:400; margin-bottom:6px;">${p.name}</div>
+          <div style="font-size:13px; color:#999;">${[p.cat, p.size, p.year].filter(Boolean).join('<br>')}</div>
+        </div>
+      </div>`;
+  });
+}
   // image
   const slot = document.getElementById('proj-img-slot');
   const src  = p.images && p.images[imgIndex] ? p.images[imgIndex] : null;
