@@ -267,7 +267,7 @@ const PROJECTS = [
 <!-- ══════════════════════════════════ -->
 
 <!-- LOGO -->
-<div class="site-logo" onclick="go('home')"><img src="LOGO_studiozak.png" alt="Studio Zak" style="height: 100px;"></div>
+<div class="site-logo" onclick="handleLogoClick()"><img src="LOGO_studiozak.png" alt="Studio Zak" style="height: 100px;"></div>
 
 <!-- LEFT NAV -->
 <nav class="nav-left">
@@ -465,6 +465,20 @@ document.addEventListener('click', e => {
   const nav = document.getElementById('mNav');
   if (nav.classList.contains('open') && !nav.contains(e.target) && !e.target.closest('.burger')) closeMobile();
 });
+
+  let logoClickCount = 0;
+let logoClickTimer;
+function handleLogoClick() {
+  go('home');
+  logoClickCount++;
+  clearTimeout(logoClickTimer);
+  logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1500);
+  if (logoClickCount >= 3) {
+    logoClickCount = 0;
+    window.location.href = '/admin.html';
+  }
+}
+  
 </script>
 </body>
 </html>
