@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO ZAK — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #ffffff;
+  --black: #111111;
+  --mid: #888888;
+  --light: #e8e8e8;
+  --bg: #f7f7f5;
+  --accent: #111111;
+  --f: 'DM Sans', sans-serif;
+}
+
+body {
+  font-family: var(--f);
+  background: var(--bg);
+  color: var(--black);
+  font-size: 13px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LOGIN ── */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  background: var(--white);
+  border: 1px solid var(--light);
+  padding: 48px 40px;
+  width: 360px;
+}
+
+.login-box h1 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.login-box input {
+  width: 100%;
+  border: 1px solid var(--light);
+  border-radius: 0;
+  padding: 10px 12px;
+  font-family: var(--f);
+  font-size: 13px;
+  margin-bottom: 12px;
+  outline: none;
+  background: var(--white);
+}
+
+.login-box input:focus { border-color: var(--black); }
+
+.login-box button {
+  width: 100%;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  padding: 11px;
+  font-family: var(--f);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.login-box button:hover { opacity: 0.8; }
+.login-error { color: #cc3333; font-size: 12px; margin-top: 8px; display: none; }
+
+/* ── ADMIN UI ── */
+#admin-screen { display: none; }
+
+.admin-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: var(--white);
+  border-bottom: 1px solid var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+.admin-logo {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn {
+  padding: 8px 20px;
+  font-family: var(--f);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+}
+
+.btn-secondary {
+  background: var(--white);
+  color: var(--black);
+  border: 1px solid var(--light);
+}
+
+.btn:hover { opacity: 0.7; }
+
+.admin-body {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+/* sidebar */
+.admin-sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--light);
+  padding: 24px 0;
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+}
+
+.sidebar-item {
+  display: block;
+  padding: 10px 24px;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-item.active, .sidebar-item:hover {
+  color: var(--black);
+  background: var(--bg);
+}
+
+/* content */
+.admin-content {
+  padding: 40px 48px;
+  max-width: 900px;
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--light);
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* form elements */
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  border: 1px solid var(--light);
+  padding: 9px 12px;
+  font-family: var(--f);
+  font-size: 13px;
+  outline: none;
+  background: var(--white);
+  border-radius: 0;
+  transition: border-color 0.2s;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus { border-color: var(--black); }
+
+.field textarea { min-height: 80px; resize: vertical; }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* project cards */
+.project-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 24px; }
+
+.project-card {
+  background: var(--white);
+  border: 1px solid var(--light);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.project-card:hover { border-color: var(--black); }
+.project-card.selected { border-color: var(--black); }
+
+.project-card-info { flex: 1; }
+.project-card-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.project-card-meta { font-size: 11px; color: var(--mid); }
+
+.project-card-actions { display: flex; gap: 8px; }
+
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.btn-danger {
+  background: #fff0f0;
+  color: #cc3333;
+  border: 1px solid #ffcccc;
+}
+
+/* project editor */
+.project-editor {
+  background: var(--white);
+  border: 1px solid var(--light);
+  padding: 28px;
+  margin-top: 16px;
+  display: none;
+}
+
+.project-editor.open { display: block; }
+
+.editor-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: var(--mid);
+}
+
+/* add project btn */
+.add-btn {
+  border: 1px dashed var(--light);
+  padding: 14px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: none;
+  width: 100%;
+}
+
+.add-btn:hover { border-color: var(--black); color: var(--black); }
+
+/* status toast */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--black);
+  color: var(--white);
+  padding: 12px 20px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.toast.show { opacity: 1; }
+.toast.error { background: #cc3333; }
+
+/* github setup */
+.setup-box {
+  background: var(--white);
+  border: 1px solid var(--light);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.setup-box p { font-size: 13px; color: var(--mid); margin-bottom: 16px; line-height: 1.7; }
+.setup-box a { color: var(--black); text-decoration: underline; }
+
+.setup-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--light);
+}
+
+.status-dot.ok { background: #22aa55; }
+.status-dot.err { background: #cc3333; }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Studio Zak — Admin</h1>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+    <button onclick="login()">Enter</button>
+    <div class="login-error" id="login-error">Wrong password</div>
+  </div>
+</div>
+
+<!-- ── ADMIN ── -->
+<div id="admin-screen">
+  <div class="admin-header">
+    <span class="admin-logo">Studio Zak — Admin</span>
+    <div class="admin-header-right">
+      <span id="save-status" style="font-size:11px;color:var(--mid);"></span>
+      <button class="btn btn-primary" onclick="saveAll()">Save & Deploy</button>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <div class="admin-sidebar">
+      <button class="sidebar-item active" onclick="showTab('projects', this)">Projects</button>
+      <button class="sidebar-item" onclick="showTab('about', this)">About</button>
+      <button class="sidebar-item" onclick="showTab('contact', this)">Contact</button>
+      <button class="sidebar-item" onclick="showTab('settings', this)">Settings</button>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- PROJECTS -->
+      <div id="tab-projects" class="tab-content active">
+        <div class="section-title">Projects</div>
+        <div class="project-list" id="project-list"></div>
+        <button class="add-btn" onclick="addProject()">+ Add Project</button>
+        <div class="project-editor" id="project-editor">
+          <div class="editor-title" id="editor-title">Edit Project</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Project Name</label>
+              <input type="text" id="e-name" placeholder="3A4B">
+            </div>
+            <div class="field">
+              <label>Type</label>
+              <select id="e-type">
+                <option value="interior">Interior</option>
+                <option value="furniture">Furniture</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Category</label>
+              <input type="text" id="e-cat" placeholder="Storage">
+            </div>
+            <div class="field">
+              <label>Year</label>
+              <input type="text" id="e-year" placeholder="2024">
+            </div>
+          </div>
+          <div class="field">
+            <label>Size</label>
+            <input type="text" id="e-size" placeholder="1180×490×1030mmH">
+          </div>
+          <div class="field">
+            <label>Image URLs (한 줄에 하나씩)</label>
+            <textarea id="e-images" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"></textarea>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;">
+            <button class="btn btn-primary btn-sm" onclick="saveProject()">Save Project</button>
+            <button class="btn btn-secondary btn-sm" onclick="closeEditor()">Cancel</button>
+            <button class="btn btn-danger btn-sm" id="delete-btn" onclick="deleteProject()" style="margin-left:auto;">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div id="tab-about" class="tab-content">
+        <div class="section-title">About</div>
+        <div class="field">
+          <label>Paragraph 1</label>
+          <textarea id="about-p1" style="min-height:100px;"></textarea>
+        </div>
+        <div class="field">
+          <label>Paragraph 2</label>
+          <textarea id="about-p2" style="min-height:100px;"></textarea>
+        </div>
+        <div class="field">
+          <label>Paragraph 3</label>
+          <textarea id="about-p3" style="min-height:100px;"></textarea>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div id="tab-contact" class="tab-content">
+        <div class="section-title">Contact</div>
+        <div class="field">
+          <label>Studio / Location</label>
+          <input type="text" id="c-studio" placeholder="Seoul, Korea">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="text" id="c-email" placeholder="hello@studiozak.com">
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="text" id="c-phone" placeholder="—">
+        </div>
+        <div class="field">
+          <label>Instagram</label>
+          <input type="text" id="c-instagram" placeholder="@studiozak">
+        </div>
+        <div class="field">
+          <label>New Business</label>
+          <input type="text" id="c-newbiz" placeholder="—">
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="tab-settings" class="tab-content">
+        <div class="section-title">GitHub Settings</div>
+        <div class="setup-box">
+          <p>GitHub에 자동으로 저장하려면 Personal Access Token이 필요해요.<br>
+          <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> 에서 발급 →
+          <strong>repo</strong> 권한 체크 → 토큰 복사 후 아래에 입력하세요.</p>
+          <div class="field">
+            <label>GitHub Token</label>
+            <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+          </div>
+          <div class="field">
+            <label>GitHub Owner (GitHub 아이디)</label>
+            <input type="text" id="gh-owner" placeholder="byeolingzhoi">
+          </div>
+          <div class="field">
+            <label>Repository Name</label>
+            <input type="text" id="gh-repo" placeholder="STUDIO-ZAK">
+          </div>
+          <div class="field">
+            <label>File Path</label>
+            <input type="text" id="gh-path" placeholder="index.html">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveSettings()">Save Settings</button>
+          <div class="setup-status">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="status-text">Not connected</span>
+          </div>
+        </div>
+
+        <div class="setup-box">
+          <p style="margin-bottom:8px;"><strong>Admin 비밀번호 변경</strong></p>
+          <div class="field">
+            <label>New Password</label>
+            <input type="password" id="new-pw" placeholder="New password">
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="changePassword()">Change Password</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ── //
+const DEFAULT_PASSWORD = 'studiozak2024';
+
+// ── STATE ── //
+let projects = [];
+let aboutText = { p1: '', p2: '', p3: '' };
+let contactInfo = { studio: '', email: '', phone: '', instagram: '', newbiz: '' };
+let editingIndex = -1;
+let ghConfig = { token: '', owner: '', repo: '', path: 'index.html' };
+
+// ── INIT ── //
+function init() {
+  // load from localStorage
+  const saved = localStorage.getItem('zak_projects');
+  if (saved) projects = JSON.parse(saved);
+  else projects = [
+    { name: "3A4B", type: "furniture", cat: "Storage", size: "1180×490×1030mmH", year: "2023", images: [""] },
+    { name: "Unnamed Residence", type: "interior", cat: "Residential", size: "", year: "2024", images: [""] },
+    { name: "—", type: "furniture", cat: "Shelf", size: "", year: "2023", images: [""] },
+    { name: "—", type: "interior", cat: "Commercial", size: "", year: "2022", images: [""] },
+  ];
+
+  const savedAbout = localStorage.getItem('zak_about');
+  if (savedAbout) aboutText = JSON.parse(savedAbout);
+  else {
+    aboutText.p1 = "With an architectural attitude rooted in the pursuit of excellence, we operate as a design studio that connects space, furniture, and installation through rigorous architectural experimentation.";
+    aboutText.p2 = "Space remains in place, yet it continuously evolves through its users. We engage with these organic transformations and design environments that generate a broader, positive impact on society.";
+    aboutText.p3 = "Through the exploration of new perspectives and materiality, we strive to create spaces that resonate deeply with human perception and everyday life.";
+  }
+
+  const savedContact = localStorage.getItem('zak_contact');
+  if (savedContact) contactInfo = JSON.parse(savedContact);
+  else contactInfo = { studio: 'Seoul, Korea', email: '—', phone: '—', instagram: '@studiozak', newbiz: '—' };
+
+  const savedGH = localStorage.getItem('zak_gh');
+  if (savedGH) ghConfig = JSON.parse(savedGH);
+
+  renderProjects();
+  loadAbout();
+  loadContact();
+  loadGHSettings();
+}
+
+// ── LOGIN ── //
+function login() {
+  const pw = document.getElementById('pw-input').value;
+  const storedPw = localStorage.getItem('zak_pw') || DEFAULT_PASSWORD;
+  if (pw === storedPw) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function logout() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
+
+function changePassword() {
+  const np = document.getElementById('new-pw').value;
+  if (!np) return;
+  localStorage.setItem('zak_pw', np);
+  showToast('Password changed!');
+  document.getElementById('new-pw').value = '';
+}
+
+// ── TABS ── //
+function showTab(tab, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── PROJECTS ── //
+function renderProjects() {
+  const list = document.getElementById('project-list');
+  list.innerHTML = '';
+  projects.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.innerHTML = `
+      <div class="project-card-info">
+        <div class="project-card-name">${p.name || '—'}</div>
+        <div class="project-card-meta">${p.type.toUpperCase()} · ${p.cat || ''} · ${p.year || ''}</div>
+      </div>
+      <div class="project-card-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editProject(${i})">Edit</button>
+      </div>`;
+    list.appendChild(card);
+  });
+}
+
+function editProject(i) {
+  editingIndex = i;
+  const p = projects[i];
+  document.getElementById('e-name').value = p.name || '';
+  document.getElementById('e-type').value = p.type || 'interior';
+  document.getElementById('e-cat').value = p.cat || '';
+  document.getElementById('e-year').value = p.year || '';
+  document.getElementById('e-size').value = p.size || '';
+  document.getElementById('e-images').value = (p.images || []).filter(Boolean).join('\n');
+  document.getElementById('editor-title').textContent = 'Edit Project';
+  document.getElementById('delete-btn').style.display = 'block';
+  document.getElementById('project-editor').classList.add('open');
+}
+
+function addProject() {
+  editingIndex = -1;
+  document.getElementById('e-name').value = '';
+  document.getElementById('e-type').value = 'interior';
+  document.getElementById('e-cat').value = '';
+  document.getElementById('e-year').value = '';
+  document.getElementById('e-size').value = '';
+  document.getElementById('e-images').value = '';
+  document.getElementById('editor-title').textContent = 'New Project';
+  document.getElementById('delete-btn').style.display = 'none';
+  document.getElementById('project-editor').classList.add('open');
+}
+
+function saveProject() {
+  const p = {
+    name:   document.getElementById('e-name').value,
+    type:   document.getElementById('e-type').value,
+    cat:    document.getElementById('e-cat').value,
+    year:   document.getElementById('e-year').value,
+    size:   document.getElementById('e-size').value,
+    images: document.getElementById('e-images').value.split('\n').map(s => s.trim()).filter(Boolean),
+  };
+  if (!p.images.length) p.images = [''];
+
+  if (editingIndex >= 0) projects[editingIndex] = p;
+  else projects.push(p);
+
+  localStorage.setItem('zak_projects', JSON.stringify(projects));
+  renderProjects();
+  closeEditor();
+  showToast('Project saved!');
+}
+
+function deleteProject() {
+  if (editingIndex < 0) return;
+  if (!confirm('Delete this project?')) return;
+  projects.splice(editingIndex, 1);
+  localStorage.setItem('zak_projects', JSON.stringify(projects));
+  renderProjects();
+  closeEditor();
+  showToast('Project deleted!');
+}
+
+function closeEditor() {
+  document.getElementById('project-editor').classList.remove('open');
+  editingIndex = -1;
+}
+
+// ── ABOUT ── //
+function loadAbout() {
+  document.getElementById('about-p1').value = aboutText.p1;
+  document.getElementById('about-p2').value = aboutText.p2;
+  document.getElementById('about-p3').value = aboutText.p3;
+}
+
+// ── CONTACT ── //
+function loadContact() {
+  document.getElementById('c-studio').value = contactInfo.studio || '';
+  document.getElementById('c-email').value = contactInfo.email || '';
+  document.getElementById('c-phone').value = contactInfo.phone || '';
+  document.getElementById('c-instagram').value = contactInfo.instagram || '';
+  document.getElementById('c-newbiz').value = contactInfo.newbiz || '';
+}
+
+// ── GH SETTINGS ── //
+function loadGHSettings() {
+  document.getElementById('gh-token').value = ghConfig.token || '';
+  document.getElementById('gh-owner').value = ghConfig.owner || '';
+  document.getElementById('gh-repo').value = ghConfig.repo || '';
+  document.getElementById('gh-path').value = ghConfig.path || 'index.html';
+  updateStatusDot();
+}
+
+function saveSettings() {
+  ghConfig = {
+    token: document.getElementById('gh-token').value,
+    owner: document.getElementById('gh-owner').value,
+    repo:  document.getElementById('gh-repo').value,
+    path:  document.getElementById('gh-path').value || 'index.html',
+  };
+  localStorage.setItem('zak_gh', JSON.stringify(ghConfig));
+  updateStatusDot();
+  showToast('Settings saved!');
+}
+
+function updateStatusDot() {
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  if (ghConfig.token && ghConfig.owner && ghConfig.repo) {
+    dot.className = 'status-dot ok';
+    txt.textContent = `Connected: ${ghConfig.owner}/${ghConfig.repo}`;
+  } else {
+    dot.className = 'status-dot err';
+    txt.textContent = 'Not connected — fill in settings above';
+  }
+}
+
+// ── SAVE & DEPLOY ── //
+async function saveAll() {
+  // collect about
+  aboutText = {
+    p1: document.getElementById('about-p1').value,
+    p2: document.getElementById('about-p2').value,
+    p3: document.getElementById('about-p3').value,
+  };
+
+  // collect contact
+  contactInfo = {
+    studio:    document.getElementById('c-studio').value,
+    email:     document.getElementById('c-email').value,
+    phone:     document.getElementById('c-phone').value,
+    instagram: document.getElementById('c-instagram').value,
+    newbiz:    document.getElementById('c-newbiz').value,
+  };
+
+  localStorage.setItem('zak_about', JSON.stringify(aboutText));
+  localStorage.setItem('zak_contact', JSON.stringify(contactInfo));
+  localStorage.setItem('zak_projects', JSON.stringify(projects));
+
+  if (!ghConfig.token || !ghConfig.owner || !ghConfig.repo) {
+    showToast('GitHub settings not configured!', true);
+    return;
+  }
+
+  document.getElementById('save-status').textContent = 'Deploying...';
+
+  try {
+    // 1. get current file SHA
+    const getRes = await fetch(
+      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`,
+      { headers: { Authorization: `token ${ghConfig.token}`, Accept: 'application/vnd.github.v3+json' } }
+    );
+    const getJson = await getRes.json();
+    const sha = getJson.sha;
+    const currentContent = atob(getJson.content.replace(/\n/g, ''));
+
+    // 2. build new content
+    const newContent = buildIndexHTML(currentContent);
+
+    // 3. push to GitHub
+    const putRes = await fetch(
+      `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`,
+      {
+        method: 'PUT',
+        headers: { Authorization: `token ${ghConfig.token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: 'Admin update',
+          content: btoa(unescape(encodeURIComponent(newContent))),
+          sha: sha,
+        })
+      }
+    );
+
+    if (putRes.ok) {
+      showToast('Deployed! Changes live in ~30 seconds.');
+      document.getElementById('save-status').textContent = '';
+    } else {
+      const err = await putRes.json();
+      showToast('Error: ' + (err.message || 'Unknown'), true);
+      document.getElementById('save-status').textContent = '';
+    }
+  } catch(e) {
+    showToast('Error: ' + e.message, true);
+    document.getElementById('save-status').textContent = '';
+  }
+}
+
+function buildIndexHTML(html) {
+  // Replace PROJECTS array
+  const projJS = `const PROJECTS = ${JSON.stringify(projects, null, 2)};`;
+  html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, projJS);
+
+  // Replace about paragraphs
+  html = html.replace(
+    /<div class="home-body">[\s\S]*?<\/div>/,
+    `<div class="home-body">\n        <p>${aboutText.p1}</p>\n        <p>${aboutText.p2}</p>\n        <p>${aboutText.p3}</p>\n      </div>`
+  );
+
+  // Replace contact rows
+  html = html.replace(/<span class="c-val">.*?<\/span><\/div>\s*<div class="contact-row"><span class="c-label">Email/,
+    `<span class="c-val">${contactInfo.studio}</span></div>\n    <div class="contact-row"><span class="c-label">Email`);
+  html = html.replace(/(<span class="c-label">Email<\/span><span class="c-val">).*?(<\/span>)/, `$1${contactInfo.email}$2`);
+  html = html.replace(/(<span class="c-label">Phone<\/span><span class="c-val">).*?(<\/span>)/, `$1${contactInfo.phone}$2`);
+  html = html.replace(/(<span class="c-label">Instagram<\/span><span class="c-val">).*?(<\/span>)/, `$1${contactInfo.instagram}$2`);
+  html = html.replace(/(<span class="c-label">New Business<\/span><span class="c-val">).*?(<\/span>)/, `$1${contactInfo.newbiz}$2`);
+
+  return html;
+}
+
+// ── TOAST ── //
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+</script>
+</body>
+</html>
