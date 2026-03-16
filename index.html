@@ -402,7 +402,29 @@ function renderProjectList(type) {
       </div>`;
   });
 }
+  initScrollEffect();
+}
 
+function initScrollEffect() {
+  let scrollTimer;
+  const scaleEls = document.querySelectorAll('.proj-entry-img, .proj-entry-info');
+  window.removeEventListener('scroll', window._scrollFn);
+  window._scrollFn = () => {
+    scaleEls.forEach(el => {
+      el.style.transform = 'scale(0.97)';
+      el.style.transition = 'transform 0.1s ease';
+    });
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      scaleEls.forEach(el => {
+        el.style.transform = 'scale(1)';
+        el.style.transition = 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)';
+      });
+    }, 80);
+  };
+  window.addEventListener('scroll', window._scrollFn);
+}
+  
 function renderArchive() {
   const grid = document.getElementById('archive-grid');
   grid.innerHTML = '';
