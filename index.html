@@ -40,45 +40,65 @@
 }
 @media (max-width: 800px) {
   #cursor { display: none; }
+
   #m-intro-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--white);
-  z-index: 9000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#m-intro-overlay.done {
-  display: none;
-}
-#m-intro-logo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: top 1.2s cubic-bezier(0.4,0,0.2,1), left 1.2s cubic-bezier(0.4,0,0.2,1), transform 1.2s cubic-bezier(0.4,0,0.2,1);
-  z-index: 9001;
-}
-#m-intro-logo.moved {
-  top: 26px;
-  left: 20px;
-  transform: translate(0, 0);
-}
-#m-intro-line {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 1px;
-  background: var(--black);
-  transition: width 1.0s cubic-bezier(0.16,1,0.3,1);
-  z-index: 9001;
-}
-#m-intro-line.open {
-  width: 60vw;
-}
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+  }
+
+  #m-intro-overlay.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  #m-intro-logo {
+    position: fixed;
+    top: 26px;
+    left: 20px;
+    z-index: 9001;
+    opacity: 0;
+    transform: translate(0, 28px) scale(1.01);
+    transition:
+      transform 1.35s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 1.0s ease;
+    will-change: transform, opacity;
+  }
+
+  #m-intro-logo.moved {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+
+  #m-intro-line {
+    position: fixed;
+    top: 54px;
+    left: 20px;
+    width: calc(100vw - 40px);
+    height: 1px;
+    background: var(--black);
+    opacity: 0;
+    transform: scaleX(0.18);
+    transform-origin: left center;
+    transition:
+      transform 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.7s ease;
+    z-index: 9001;
+    will-change: transform, opacity;
+  }
+
+  #m-intro-line.open {
+    opacity: 0.28;
+    transform: scaleX(1);
+  }
 }
 
 :root {
@@ -694,6 +714,16 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   display: none;
 }
 @media (max-width: 800px) {
+  .m-header {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.m-header.ready {
+  opacity: 1;
+  pointer-events: auto;
+}
   .m-home-menu {
     display: flex;
     flex-direction: column;
@@ -1998,18 +2028,24 @@ function stopConfetti() {
 }
 
   if (window.innerWidth <= 800) {
+  const logo = document.getElementById('m-intro-logo');
+  const line = document.getElementById('m-intro-line');
+  const overlay = document.getElementById('m-intro-overlay');
+  const header = document.querySelector('.m-header');
+
   setTimeout(() => {
-  document.getElementById('m-intro-logo').classList.add('moved');
-}, 1200);
-    
+    if (logo) logo.classList.add('moved');
+  }, 180);
+
   setTimeout(() => {
-  document.getElementById('m-intro-line').classList.add('open');
-}, 1800);
-    
+    if (line) line.classList.add('open');
+  }, 820);
+
   setTimeout(() => {
-    document.getElementById('m-intro-overlay').classList.add('done');
-  }, 2800);
-} 
+    if (overlay) overlay.classList.add('done');
+    if (header) header.classList.add('ready');
+  }, 2100);
+}
 </script>
 
 
