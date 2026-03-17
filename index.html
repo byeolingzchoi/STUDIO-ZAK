@@ -40,6 +40,45 @@
 }
 @media (max-width: 800px) {
   #cursor { display: none; }
+  #m-intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#m-intro-overlay.done {
+  display: none;
+}
+#m-intro-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: top 0.7s cubic-bezier(0.16,1,0.3,1), left 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  z-index: 9001;
+}
+#m-intro-logo.moved {
+  top: 26px;
+  left: 20px;
+  transform: translate(0, 0);
+}
+#m-intro-line {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: var(--black);
+  transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+  z-index: 9001;
+}
+#m-intro-line.open {
+  width: 60vw;
+}
 }
 
 :root {
@@ -874,6 +913,10 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 </style>
 </head>
 <body>
+  <div id="m-intro-overlay">
+    <img id="m-intro-logo" src="LOGO_studiozak_re.png" style="height:56px;">
+    <div id="m-intro-line"></div>
+  </div>
 
 <!-- ══════════════════════════════════
   ✏️  프로젝트 데이터 — 여기만 수정하세요!
@@ -1954,6 +1997,15 @@ function stopConfetti() {
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
+  if (window.innerWidth <= 800) {
+  setTimeout(() => {
+    document.getElementById('m-intro-logo').classList.add('moved');
+    document.getElementById('m-intro-line').classList.add('open');
+  }, 800);
+  setTimeout(() => {
+    document.getElementById('m-intro-overlay').classList.add('done');
+  }, 1800);
+} 
 </script>
 
 
