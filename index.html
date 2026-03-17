@@ -708,13 +708,10 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 @media (max-width: 800px) {
   .site-logo, .nav-left { display:none; }
   .site-footer {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-orientation: mixed;
   position: fixed;
   right: 12px;
   bottom: 50%;
-  transform: translateY(50%);
+  transform: translateY(50%) rotate(-90deg);
   font-size: 10px;
   letter-spacing: 0.08em;
   color: var(--mid);
