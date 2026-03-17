@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO ZAK</title>
+<meta name="description" content="작은 공간, 가구, 설치를 아우르며 사람의 감각과 일상에 스며드는 환경을 설계하는 스튜디오, 작.">
+<meta property="og:title" content="STUDIO ZAK">
+<meta property="og:description" content="작은 공간, 가구, 설치를 아우르며 사람의 감각과 일상에 스며드는 환경을 설계하는 스튜디오, 작.">
+<meta property="og:image" content="https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/og_zak.png">
+<meta property="og:url" content="https://studiozak.vercel.app">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="STUDIO ZAK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="STUDIO ZAK">
+<meta name="twitter:description" content="작은 공간, 가구, 설치를 아우르며 사람의 감각과 일상에 스며드는 환경을 설계하는 스튜디오, 작.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/og_zak.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="m-intro-overlay">
+    <div id="m-intro-line"></div>
+  </div>
+  <!-- 모바일 로고: 인트로 중앙 시작 → 헤더 위치로 이동 후 고정 -->
+  <img id="m-intro-logo" src="m_logo_studiozak.png" alt="Studio Zak" style="height:56px;">
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+
+<!-- LOGO -->
+<div class="site-logo" onclick="handleLogoClick()"><img src="logo_studiozak_web.png" alt="Studio Zak" style="height: 140px;"></div>
+
+<!-- LEFT NAV -->
+<nav class="nav-left">
+  <a href="#" onclick="go('about')"   id="nav-about">ABOUT</a>
+  <a href="#" onclick="toggleProjNav(); return false;" id="nav-project">PROJECT</a>
+  <div class="nav-sub" id="nav-sub">
+    <a href="#" onclick="go('interior')" id="nav-interior">INTERIOR</a>
+    <a href="#" onclick="go('furniture')" id="nav-furniture">FURNITURE</a>
+  </div>
+  <a href="#" onclick="go('archive')" id="nav-archive">ARCHIVE</a>
+  <a href="#" onclick="go('contact')" id="nav-contact">CONTACT</a>
+</nav>
+
+<!-- FOOTER -->
+<div class="site-footer">© Studio Zak, Seoul</div>
+
+<!-- MOBILE HEADER -->
+<div class="m-header">
+  <span class="m-logo" onclick="mGoHome()"></span>
+</div>
+
+<!-- MOBILE HOME ACCORDION MENU -->
+<div class="m-home-menu" id="m-home-menu">
+
+  <!-- ABOUT -->
+  <div class="m-home-menu-item" id="m-item-about">
+    <div class="m-home-menu-label" onclick="mToggle('about')">
+      About <span class="m-home-menu-arrow">∨</span>
+    </div>
+    <div class="m-home-menu-content" id="m-content-about"></div>
+  </div>
+
+  <!-- PROJECT (펼치면 Interior/Furniture 서브메뉴) -->
+  <div class="m-home-menu-item" id="m-item-project">
+    <div class="m-home-menu-label" onclick="mToggleProject()">
+      Project <span class="m-home-menu-arrow" id="m-arrow-project">∨</span>
+    </div>
+    <div class="m-home-menu-content" id="m-content-project">
+      <!-- INTERIOR -->
+      <div class="m-home-sub-item" id="m-item-interior">
+        <div class="m-home-sub-label" onclick="mToggle('interior')">
+          Interior <span class="m-home-menu-arrow">∨</span>
+        </div>
+        <div id="m-content-interior"></div>
+      </div>
+      <!-- FURNITURE -->
+      <div class="m-home-sub-item" id="m-item-furniture">
+        <div class="m-home-sub-label" onclick="mToggle('furniture')">
+          Furniture <span class="m-home-menu-arrow">∨</span>
+        </div>
+        <div id="m-content-furniture"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHIVE -->
+  <div class="m-home-menu-item" id="m-item-archive">
+    <div class="m-home-menu-label" onclick="mToggle('archive')">
+      Archive <span class="m-home-menu-arrow">∨</span>
+    </div>
+    <div class="m-home-menu-content" id="m-content-archive"></div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="m-home-menu-item" id="m-item-contact">
+    <div class="m-home-menu-label" onclick="mToggle('contact')">
+      Contact <span class="m-home-menu-arrow">∨</span>
+    </div>
+    <div class="m-home-menu-content" id="m-content-contact"></div>
+  </div>
+
+</div>
+
+<!-- ════════ HOME ════════ -->
+<div id="page-home" class="page active"></div>
+
+<!-- ════════ ABOUT ════════ -->
+<div id="page-about" class="page">
+  <div class="about-inner">
+    <div class="about-home-wrap">
+      <div class="home-image">
+        <img src="https://framerusercontent.com/images/cQ8CbGZH3jDYmotNXpn234R45o.png?scale-down-to=1024&width=1432&height=2048" alt="Studio Zak" style="width:100%;display:block;object-fit:cover;">
+      </div>
+      <div class="home-body">
+        <p class="about-p">
+          <span class="p-en">Rooted in an architectural pursuit of excellence, we are a design studio that connects space, furniture, and installation through rigorous experimentation.</span>
+          <span class="p-ko">정점을 향한 건축적 추구를 바탕으로, 우리는 다양한 실험을 통해 공간, 가구, 설치를 유기적으로 연결하는 디자인 스튜디오 입니다.</span>
+        </p>
+        <p class="about-p">
+          <span class="p-en">We see space as something constantly transformed by those who inhabit it. By engaging with these organic shifts, we create environments that foster a broader, positive impact on society.</span>
+          <span class="p-ko">우리는 공간을 그 안에서 살아가는 사람들과 함께 끊임없이 변화하는 유기적인 환경으로 바라봅니다. 이러한 유기적인 변화에 주목하며, 사회에 더 넓고 긍적적인 영향을 만들어내는 환경을 설계합니다.</span>
+        </p>
+        <p class="about-p">
+          <span class="p-en">Through new perspectives and material explorations, we strive to shape spaces that resonate with human perception and everyday life.</span>
+          <span class="p-ko">새로운 시각과 물성에 대한 탐구를 통해, 인간의 지각과 일상에 깊이 공명하는 공간을 만들고자 합니다.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ INTERIOR ════════ -->
+<div id="page-interior" class="page">
+  <div class="project-scroll" id="scroll-interior"></div>
+</div>
+
+<!-- ════════ FURNITURE ════════ -->
+<div id="page-furniture" class="page">
+  <div class="project-scroll" id="scroll-furniture"></div>
+</div>
+
+<!-- ════════ ARCHIVE ════════ -->
+<div id="page-archive" class="page">
+  <div class="archive-inner">
+    <div class="archive-grid" id="archive-grid"></div>
+  </div>
+</div>
+
+<!-- ════════ CONTACT ════════ -->
+<div id="page-contact" class="page">
+  <div class="contact-inner">
+    <div class="contact-list">
+      <div class="contact-item"><span class="c-label">Studio</span><span class="c-val">Seoul, Korea</span></div>
+      <div class="contact-item"><span class="c-label">Email</span><span class="c-val" onclick="navigator.clipboard.writeText('official@zak-studio.com'); this.textContent='Copied!'; setTimeout(()=>this.textContent='official@zak-studio.com',1500)" style="cursor:pointer;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="80efe6e6e9e3e9e1ecc0fae1ebadf3f4f5e4e9efaee3efed">[email&#160;protected]</a></span></div>
+      <div class="contact-item"><span class="c-label">Phone</span><span class="c-val">—</span></div>
+      <div class="contact-item"><span class="c-label">Instagram</span><span class="c-val"><a href="https://instagram.com/zak.seoul" target="_blank" style="color:inherit;">@zak.seoul</a></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 의뢰하기 버튼 -->
+<div class="inquiry-btn" id="inquiry-btn">
+  <div class="slide-wrap" onclick="openInquiry()">
+    <span class="slide-label-box">Get in Touch</span>
+  </div>
+</div>
+
+<!-- 오버레이 -->
+<div class="inquiry-overlay" id="inquiry-overlay" onclick="closeInquiry()"></div>
+
+<!-- 의뢰하기 패널 -->
+<div class="inquiry-panel" id="inquiry-panel">
+  <button class="inquiry-panel-close" onclick="closeInquiry()">×</button>
+  <h3>New<br>Business</h3>
+  <p class="inquiry-sub">Share your plans and we'll follow up<br>with a detailed proposal.</p>
+  <hr class="inquiry-divider">
+
+  <form id="inquiry-form" onsubmit="submitInquiry(event)">
+    <span class="inquiry-section-label">Required Services</span>
+    <div class="inquiry-chips" id="inquiry-chips">
+      <button type="button" class="inquiry-chip" onclick="this.classList.toggle('on')">Interior</button>
+      <button type="button" class="inquiry-chip" onclick="this.classList.toggle('on')">Furniture</button>
+      <button type="button" class="inquiry-chip" onclick="this.classList.toggle('on')">Installation</button>
+      <button type="button" class="inquiry-chip" onclick="this.classList.toggle('on')">Other</button>
+    </div>
+
+    <span class="inquiry-section-label">How can we help?</span>
+    <textarea class="inquiry-textarea" id="iq-message" placeholder="Tell us about your project." required></textarea>
+
+    <input class="inquiry-input" id="iq-name" type="text" placeholder="Name" required>
+    <input class="inquiry-input" id="iq-email" type="email" placeholder="Email" required>
+
+    <span class="inquiry-section-label" style="margin-top:0.4rem;">Drawings / References</span>
+    <div class="inquiry-upload-zone" id="upload-zone" onclick="document.getElementById('iq-files').click()">
+      <input type="file" id="iq-files" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleFiles(this.files)">
+      <div class="upload-icon">↑</div>
+      <div class="upload-text">Click to upload files</div>
+      <div class="upload-hint">.JPG .JPEG .PNG .PDF · max 25MB each</div>
+    </div>
+    <div id="file-list" class="file-list"></div>
+
+    <button type="submit" class="inquiry-submit" id="iq-submit">Send Inquiry</button>
+    <div id="iq-status" style="font-size:12px;text-align:center;margin-top:12px;color:var(--mid);display:none;"></div>
+  </form>
+</div>
+
+<!-- ════════ POST VIEWER ════════ -->
+<div class="post-viewer-overlay" id="pv-overlay" onclick="closePostViewer()"></div>
+<div class="post-viewer" id="post-viewer">
+  <button class="pv-close" onclick="closePostViewer()">Close ×</button>
+  <div class="pv-wrap">
+    <div class="post-viewer-img" id="pv-img"></div>
+    <div class="post-viewer-body">
+      <div class="pv-tag" id="pv-tag"></div>
+      <div class="pv-title" id="pv-title"></div>
+      <div class="pv-date" id="pv-date"></div>
+      <hr class="pv-divider">
+      <div class="pv-body" id="pv-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── EASTER EGG ── -->
+<canvas id="easter-confetti" style="position:fixed;inset:0;pointer-events:none;z-index:8999;"></canvas>
+<div class="easter-overlay" id="easter-overlay" onclick="closeEaster(event)">
+  <div class="easter-box">
+    <button class="easter-close" onclick="closeEaster()">×</button>
+    <span class="easter-emoji" id="easter-emoji">🤞</span>
+    <div class="easter-msg" id="easter-msg">
+      Yes, I made this.
+      <em>(no team. no budget. just vibes and suffering.)</em>
+    </div>
+    <a class="easter-link" id="easter-link" href="https://instagram.com/byeolingz" target="_blank">proof of life → @byeolingz</a>
+  </div>
+</div>
+
+<!-- ════════ �
