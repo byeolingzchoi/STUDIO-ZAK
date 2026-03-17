@@ -187,6 +187,7 @@ body { font-family:var(--f); background:var(--bg); color:var(--b); font-size:13p
                 <option value="Commercial">Commercial</option>
                 <option value="Residential">Residential</option>
                 <option value="Office">Office</option>
+                <option value="Concept">Concept</option>
               </select>
             </div>
             <div class="field"><label>Year</label><input id="f-year" type="text"></div>
@@ -451,7 +452,8 @@ function updateCatOptions() {
     catEl.innerHTML = `
       <option value="Commercial">Commercial</option>
       <option value="Residential">Residential</option>
-      <option value="Office">Office</option>`;
+      <option value="Office">Office</option>
+      <option value="Concept">Concept</option>`;
   } else {
     catEl.innerHTML = `
       <option value="Storage">Storage</option>
