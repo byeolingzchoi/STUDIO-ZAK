@@ -57,7 +57,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: top 0.7s cubic-bezier(0.16,1,0.3,1), left 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  transition: top 1.2s cubic-bezier(0.16,1,0.3,1), left 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1);
   z-index: 9001;
 }
 #m-intro-logo.moved {
@@ -73,7 +73,7 @@
   width: 0;
   height: 1px;
   background: var(--black);
-  transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+  transition: width 1.0s cubic-bezier(0.16,1,0.3,1);
   z-index: 9001;
 }
 #m-intro-line.open {
@@ -1078,11 +1078,11 @@ const POSTS = [
       <div class="home-body">
         <p class="about-p">
           <span class="p-en">Rooted in an architectural pursuit of excellence, we are a design studio that connects space, furniture, and installation through rigorous experimentation.</span>
-          <span class="p-ko">탁월함을 향한 건축적 추구를 바탕으로, 우리는 엄격한 실험을 통해 공간, 가구, 설치를 유기적으로 연결하는 디자인 스튜디오입니다.</span>
+          <span class="p-ko">정점을 향한 건축적 추구를 바탕으로, 우리는 다양한 실험을 통해 공간, 가구, 설치를 유기적으로 연결하는 디자인 스튜디오 입니다.</span>
         </p>
         <p class="about-p">
           <span class="p-en">We see space as something constantly transformed by those who inhabit it. By engaging with these organic shifts, we create environments that foster a broader, positive impact on society.</span>
-          <span class="p-ko">우리는 공간을 그 안을 살아가는 사람들에 의해 끊임없이 변화하는 존재로 바라봅니다. 이러한 유기적인 변화에 주목하며, 사회에 더 넓고 긍정적인 영향을 만들어내는 환경을 설계합니다.</span>
+          <span class="p-ko">우리는 공간을 그 안에서 살아가는 사람들과 함께 끊임없이 변화하는 유기적인 환경으로 바라봅니다. 이러한 유기적인 변화에 주목하며, 사회에 더 넓고 긍적적인 영향을 만들어내는 환경을 설계합니다.</span>
         </p>
         <p class="about-p">
           <span class="p-en">Through new perspectives and material explorations, we strive to shape spaces that resonate with human perception and everyday life.</span>
@@ -1999,9 +1999,13 @@ function stopConfetti() {
 
   if (window.innerWidth <= 800) {
   setTimeout(() => {
-    document.getElementById('m-intro-logo').classList.add('moved');
-    document.getElementById('m-intro-line').classList.add('open');
-  }, 800);
+  document.getElementById('m-intro-logo').classList.add('moved');
+}, 1200);
+    
+  setTimeout(() => {
+  document.getElementById('m-intro-line').classList.add('open');
+}, 1800);
+    
   setTimeout(() => {
     document.getElementById('m-intro-overlay').classList.add('done');
   }, 1800);
