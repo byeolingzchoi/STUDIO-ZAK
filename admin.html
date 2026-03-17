@@ -803,8 +803,8 @@ function patchHTML(html) {
   html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, `const PROJECTS = ${JSON.stringify(projects, null, 2)};`);
 
   // posts — index.html에 함께 반영
-  html = html.replace(/const POSTS = [^\n]*/, `const POSTS = ${JSON.stringify(posts)};`);
-
+  html = html.replace(/const POSTS = \[[\s\S]*?\];/, `const POSTS = ${JSON.stringify(posts)};`);
+  
   // contact
   html = html.replace(/(<span class="c-label">Studio<\/span><span class="c-val">)[^<]*(<\/span>)/, `$1${contact.studio}$2`);
   html = html.replace(/(<span class="c-label">Email<\/span><span class="c-val">)[^<]*(<\/span>)/, `$1${contact.email}$2`);
