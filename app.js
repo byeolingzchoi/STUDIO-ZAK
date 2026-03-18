@@ -895,3 +895,10 @@ function closeMobileViewer() {
     document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 3000); });
   }
 })();
+
+// 이미지 우클릭 방지
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+  }
+});
