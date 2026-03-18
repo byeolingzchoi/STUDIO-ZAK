@@ -70,7 +70,7 @@
   /* 헤더 위치로 이동 */
   #m-intro-logo.moved {
     top: 16px  !important;
-    left: 10px !important;
+    left: 5px !important;
     transform: translate(0, 0) scale(0.6) !important;
     -webkit-transform: translate(0, 0) scale(0.6) !important;
   }
@@ -665,7 +665,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-top: -48px;
+    margin-top: -20px;
     padding: 0 28px;
     gap: 0;
   }
