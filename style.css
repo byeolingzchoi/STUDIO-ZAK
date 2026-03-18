@@ -69,10 +69,10 @@
 
   /* 헤더 위치로 이동 */
   #m-intro-logo.moved {
-    top: 20px  !important;
-    left: 16px !important;
-    transform: translate(0, 0) scale(0.8) !important;
-    -webkit-transform: translate(0, 0) scale(0.8) !important;
+    top: 16px  !important;
+    left: 10px !important;
+    transform: translate(0, 0) scale(0.6) !important;
+    -webkit-transform: translate(0, 0) scale(0.6) !important;
   }
 
   /* 이동 완료 후 트랜지션 끔 (사파리 깜빡임 방지) */
