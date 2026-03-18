@@ -70,7 +70,7 @@
   /* 3. 로고 이동 상태 (좌측 상단) */
   #m-intro-logo.moved {
     top: 20px !important;
-    left: 5px !important;
+    left: 0px !important;
     transform: translate(0, 0) scale(0.6) translateZ(0) !important;
     -webkit-transform: translate(0, 0) scale(0.6) translateZ(0) !important;
   }
@@ -666,7 +666,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-top: -20px;
+    margin-top: -30px;
     padding: 0 28px;
     gap: 0;
   }
