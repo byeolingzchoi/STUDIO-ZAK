@@ -668,7 +668,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     flex-direction: column;
     align-items: center;
     min-height: auto;
-    margin-top: -55px;
+    margin-top: 0px;
     padding: 0 28px;
     gap: 0;
   }
