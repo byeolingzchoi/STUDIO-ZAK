@@ -17,71 +17,71 @@
   width: 25px; height: 25px;
 }
 /* 데스크탑에서는 인트로 요소 완전히 숨김 */
-#m-intro-overlay { display: none; }
-#m-intro-logo    { display: none; }
-#m-intro-dot     { display: none; }
+/* 데스크탑: 인트로 요소 숨김 */
+@media screen and (min-width: 801px) {
+  #m-intro-overlay, #m-intro-logo, #m-intro-dot { display: none !important; }
+}
 
 /* ── 모바일 인트로 ── */
-@media (max-width: 800px) {
+@media screen and (max-width: 800px) {
   #cursor { display: none; }
 
-  /* 흰 배경 오버레이 */
+  /* 1. 배경 오버레이 */
   #m-intro-overlay {
     display: flex !important;
     align-items: center;
     justify-content: center;
     position: fixed;
-    inset: 0;                      /* top/right/bottom/left: 0 한번에 */
-    width: 100%; height: 100%;
+    inset: 0;
     background: #fff;
     opacity: 1;
     visibility: visible;
     z-index: 9000;
-    transition: opacity 0.9s ease;
-    pointer-events: auto;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    will-change: opacity;
   }
   #m-intro-overlay.done {
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
   }
 
-  /* 로고: 처음엔 정중앙, transform으로만 이동 (사파리 안전) */
+  /* 2. 로고 초기 상태 (정중앙) */
   #m-intro-logo {
     display: block !important;
     position: fixed;
-    /* 정중앙 고정 */
     top: 50%;
     left: 50%;
     width: 300px;
-    /* translate로 정중앙 정렬 — 이동도 transform으로만 */
-    transform: translate(-50%, -50%) scale(1.2);
-    -webkit-transform: translate(-50%, -50%) scale(1.2);
+    transform: translate(-50%, -50%) scale(1.2) translateZ(0);
+    -webkit-transform: translate(-50%, -50%) scale(1.2) translateZ(0);
     opacity: 1;
     visibility: visible;
     z-index: 9100;
-    transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1),
-                top      1.1s cubic-bezier(0.4, 0, 0.2, 1),
-                left     1.1s cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-transition: -webkit-transform 1.1s cubic-bezier(0.4, 0, 0.2, 1),
-                        top  1.1s cubic-bezier(0.4, 0, 0.2, 1),
-                        left 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                top      1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                left     1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    -webkit-transition: -webkit-transform 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                        top  1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                        left 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, top, left;
   }
 
-  /* 헤더 위치로 이동 */
+  /* 3. 로고 이동 상태 (좌측 상단) */
   #m-intro-logo.moved {
-    top: 20px  !important;
+    top: 20px !important;
     left: 5px !important;
-    transform: translate(0, 0) scale(0.6) !important;
-    -webkit-transform: translate(0, 0) scale(0.6) !important;
+    transform: translate(0, 0) scale(0.6) translateZ(0) !important;
+    -webkit-transform: translate(0, 0) scale(0.6) translateZ(0) !important;
   }
 
-  /* 이동 완료 후 트랜지션 끔 (사파리 깜빡임 방지) */
+  /* 4. 이동 완료 후 트랜지션 끔 */
   #m-intro-logo.settled {
     transition: none !important;
     -webkit-transition: none !important;
   }
 
-  /* 가운데 점 */
+  /* 5. 가운데 점 */
   #m-intro-dot {
     display: block !important;
     position: fixed;
@@ -92,6 +92,7 @@
     border-radius: 50%;
     opacity: 0;
     z-index: 9100;
+    will-change: opacity;
   }
   #m-intro-dot.blink {
     animation: m-blink 0.7s ease-in-out infinite alternate;
