@@ -677,6 +677,8 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   .m-home-menu-item .m-home-menu-content { overflow: hidden; max-height: 0; transition: max-height 1.0s cubic-bezier(0.4, 0, 0.2, 1); padding: 0; }
   .m-home-menu-item.open .m-home-menu-content { max-height: 2000px; }
   .m-home-menu-content { text-align: left; overflow: hidden; }
+  /* 열렸을 때 overflow 풀기 */
+  .m-home-menu-item.open .m-home-menu-content { overflow: visible; }
   .m-home-menu-label {
     font-size: 16px; font-weight: 500;
     letter-spacing: 0.1em; text-transform: uppercase;
