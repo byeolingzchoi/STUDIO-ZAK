@@ -17,36 +17,46 @@
   width: 25px; height: 25px;
 }
 #m-intro-overlay, #m-intro-logo, #m-intro-dot {
+  position: fixed;
   opacity: 0;
   visibility: hidden;
-  position: fixed;
+  z-index: 9000;
 }
 
 /* 모바일 미디어 쿼리 */
 @media (max-width: 800px) {
   #cursor { display: none; }
 
-  /* 1. 인트로 배경 */
+  /* 배경: 100vh로 높이 강제 고정 */
   #m-intro-overlay {
     display: flex !important;
-    visibility: visible;
     opacity: 1;
-    position: fixed; inset: 0;
-    background: #fff; z-index: 9000;
-    transition: opacity 0.8s ease;
+    visibility: visible;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: #ffffff;
+    z-index: 9000;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
   }
   #m-intro-overlay.done {
-    opacity: 0; visibility: hidden; pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* 뒤에 있는 메뉴 클릭 가능하게 함 */
   }
 
-  /* 2. 로고: 중앙 크게 등장 */
+  /* 로고: 중앙 좌표를 수치로 직접 계산 (사파리 찢어짐 방지) */
   #m-intro-logo {
     display: block !important;
-    visibility: visible;
     opacity: 1;
+    visibility: visible;
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(1.2); /* 초기 크기 */
+    /* translate(-50%) 대신 margin-left를 써서 사파리 레이아웃 고정 */
+    top: 50vh; 
+    left: 50vw;
+    width: 120px; /* 로고 가로폭에 맞춰 수정하세요 */
+    margin-top: -30px; /* 로고 높이의 절반 */
+    margin-left: -60px; /* 로고 넓이의 절반 */
+    transform: scale(1.2); 
     transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
                 top 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
                 left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -54,35 +64,33 @@
     will-change: transform, top, left;
   }
 
-  /* 로고: 결승점 이동 및 축소 */
+  /* 로고 이동 후 */
   #m-intro-logo.moved {
-    top: 25px; left: 20px;
-    transform: translate(0, 0) scale(0.9); /* 헤더 크기로 축소 */
+    top: 25px !important;
+    left: 20px !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    transform: scale(0.9) !important;
   }
 
-  /* 로고: 이동 완료 후 고정(사파리 떨림 방지) */
+  /* 로고 고정 (사파리 필수) */
   #m-intro-logo.settled {
     transition: none !important;
   }
 
-  /* 3. 중앙 작은 점 */
+  /* 4. 가운데 작은 점 */
   #m-intro-dot {
     display: inline-block !important;
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50vh; left: 50vw;
+    width: 6px; height: 6px;
+    margin-left: -3px; margin-top: -3px;
+    background: #000; border-radius: 50%;
     opacity: 0; visibility: visible;
     z-index: 9001;
   }
   #m-intro-dot.blink {
     animation: m-blink 0.8s infinite alternate;
-  }
-
-  /* 4. 아코디언 메뉴 초기 상태 (숨김) */
-  #m-home-menu {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.8s ease;
   }
 }
 
