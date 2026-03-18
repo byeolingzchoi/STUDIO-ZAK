@@ -798,45 +798,51 @@ function stopConfetti() {
 }
 
 // ── 모바일 인트로 ──
-if (window.innerWidth <= 800) {
+function runMobileIntro() {
+  if (window.innerWidth > 800) return;
+
   const logo = document.getElementById('m-intro-logo');
   const overlay = document.getElementById('m-intro-overlay');
   const dot = document.getElementById('m-intro-dot');
   const menu = document.getElementById('m-home-menu');
 
-  // 처음엔 아코디언 메뉴 숨김
+  if (!logo || !overlay) return;
+
   if (menu) {
     menu.style.opacity = '0';
     menu.style.transition = 'none';
   }
 
-  if (logo) logo.addEventListener('click', mGoHome);
+  logo.onclick = mGoHome;
 
-  // 1000ms: 로고 헤더 위치로 이동
-  setTimeout(() => {
-    if (logo) logo.classList.add('moved');
-  }, 1000);
+  // 기존 1000ms 감성은 유지하고,
+  // 시작 트리거만 Safari에 더 안정적으로 맞춤
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        logo.classList.add('moved');
+      }, 1000);
+    });
+  });
 
-  // 2200ms: 로고 이동 완료 후 점 깜빡이 시작
   setTimeout(() => {
     if (dot) dot.classList.add('blink');
   }, 2200);
 
-  // 3400ms: 오버레이 페이드아웃
   setTimeout(() => {
-    if (overlay) {
-      overlay.style.transition = 'opacity 0.5s ease';
-      overlay.style.opacity = '0';
-    }
+    overlay.style.transition = 'opacity 0.5s ease';
+    overlay.style.opacity = '0';
   }, 3400);
 
-  // 3900ms: 오버레이 제거, 로고 고정, 메뉴 페이드인
   setTimeout(() => {
-    if (overlay) overlay.classList.add('done');
-    if (logo) logo.classList.add('settled');
+    overlay.classList.add('done');
+    logo.classList.add('settled');
+
     if (menu) {
       menu.style.transition = 'opacity 0.5s ease';
       menu.style.opacity = '1';
     }
   }, 3900);
 }
+
+window.addEventListener('pageshow', runMobileIntro);
