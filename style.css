@@ -52,10 +52,10 @@
     /* 정중앙 고정 */
     top: 50%;
     left: 50%;
-    width: 120px;
+    width: 300px;
     /* translate로 정중앙 정렬 — 이동도 transform으로만 */
-    transform: translate(-50%, -50%) scale(1.15);
-    -webkit-transform: translate(-50%, -50%) scale(1.15);
+    transform: translate(-50%, -50%) scale(1.2);
+    -webkit-transform: translate(-50%, -50%) scale(1.2);
     opacity: 1;
     visibility: visible;
     z-index: 9100;
@@ -70,9 +70,9 @@
   /* 헤더 위치로 이동 */
   #m-intro-logo.moved {
     top: 20px  !important;
-    left: 16px !important;
-    transform: translate(0, 0) scale(0.55) !important;
-    -webkit-transform: translate(0, 0) scale(0.55) !important;
+    left: 5px !important;
+    transform: translate(0, 0) scale(0.6) !important;
+    -webkit-transform: translate(0, 0) scale(0.6) !important;
   }
 
   /* 이동 완료 후 트랜지션 끔 (사파리 깜빡임 방지) */
@@ -665,7 +665,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-top: -52px;
+    margin-top: -20px;
     padding: 0 28px;
     gap: 0;
   }
