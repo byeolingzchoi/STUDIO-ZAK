@@ -1024,3 +1024,16 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 /* 화살표 완전 제거 */
 .proj-slider-arrows { display: none !important; }
 .s-arrow { display: none !important; }
+
+/* 텍스트 선택 방지 */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* 이미지 우클릭/저장 방지 */
+img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
