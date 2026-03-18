@@ -801,44 +801,66 @@ function stopConfetti() {
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// ── 모바일 인트로 (Safari 완전 호환) ── //
+// ── 모바일 인트로 (Safari 완전 호환) ──
 (function() {
+  // 순수하게 화면 너비만으로 판단 — ontouchstart는 터치스크린 노트북에서 오작동
   if (window.innerWidth > 800) return;
+
+  // 모바일에서만 실행 — 메뉴를 인트로 끝날 때까지 숨김
   var _menu = document.getElementById('m-home-menu');
   if (_menu) { _menu.style.opacity = '0'; _menu.style.pointerEvents = 'none'; }
 
   function runIntro() {
-    var logo = document.getElementById('m-intro-logo');
+    var logo    = document.getElementById('m-intro-logo');
     var overlay = document.getElementById('m-intro-overlay');
-    var dot = document.getElementById('m-intro-dot');
-    var menu = document.getElementById('m-home-menu');
+    var dot     = document.getElementById('m-intro-dot');
+    var menu    = document.getElementById('m-home-menu');
+
     if (!logo || !overlay) return;
 
-    void logo.offsetHeight;
-    void overlay.offsetHeight;
+    // 사파리: 초기 위치를 확실히 페인트시킨 뒤 트랜지션 시작
+    // rAF 두 번 중첩 = 다음 프레임 보장
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        void logo.offsetHeight; // force reflow
 
-    setTimeout(function() {
-      logo.classList.add('moved');
-    }, 200);
+        // 1단계: 로고를 헤더 위치로 이동
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            logo.classList.add('moved');
+          });
+        }, 800);
 
-    setTimeout(function() {
-      logo.classList.add('settled');
-      if (dot) dot.classList.add('blink');
-    }, 1400);
+        // 2단계: 트랜지션 끄고 고정 + 점 깜빡임
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            logo.classList.add('settled');
+            if (dot) dot.classList.add('blink');
+          });
+        }, 2100);
 
-    setTimeout(function() {
-      overlay.classList.add('done');
-      if (dot) { dot.style.opacity = '0'; dot.classList.remove('blink'); }
-      if (menu) { menu.style.opacity = '1'; menu.style.pointerEvents = 'auto'; }
-    }, 2100);
+        // 3단계: 오버레이 페이드아웃 + 메뉴 등장
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            overlay.classList.add('done');
+            if (dot) { dot.style.opacity = '0'; dot.classList.remove('blink'); }
+            if (menu) {
+              menu.style.opacity = '1';
+              menu.style.pointerEvents = 'auto';
+            }
+          });
+        }, 3200);
+      });
+    });
   }
 
+  // load 완료 + 150ms 여유. 이미지 실패해도 DOMContentLoaded 3초 후 강제 실행
   var _done = false;
-  function _go() { if (_done) return; _done = true; setTimeout(runIntro, 300); }
+  function _go() { if (_done) return; _done = true; setTimeout(runIntro, 150); }
   if (document.readyState === 'complete') {
     _go();
   } else {
     window.addEventListener('load', _go);
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 2000); });
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 3000); });
   }
 })();
