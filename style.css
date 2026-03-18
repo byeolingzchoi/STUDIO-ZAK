@@ -17,82 +17,68 @@
   width: 25px; height: 25px;
 }
 #m-intro-overlay {
-  display: none !important;
+  display: none;
 }
 #m-intro-logo {
-  display: none !important;
+  display: none;
 }
 #m-intro-dot {
-  display: none !important;
+  display: none;
 }
+/* 모바일 미디어 쿼리 */
 @media (max-width: 800px) {
   #cursor { display: none; }
 
   #m-intro-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--white);
-    z-index: 9000;
     display: flex !important;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
+    position: fixed; inset: 0;
+    background: #fff; z-index: 9000;
+    opacity: 1; visibility: visible;
+    transition: opacity 0.8s ease;
   }
   #m-intro-overlay.done {
-    display: none;
+    opacity: 0; visibility: hidden;
   }
-
-  /* 모바일 로고: 중앙 시작 → 헤더 위치로 이동 */
   #m-intro-logo {
     display: block !important;
     position: fixed;
-    height: 60px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: top 1.2s cubic-bezier(0.4,0,0.2,1),
-                left 1.2s cubic-bezier(0.4,0,0.2,1),
-                transform 1.2s cubic-bezier(0.4,0,0.2,1),
-                height 1.2s cubic-bezier(0.4,0,0.2,1);
+    /* 초기 상태: 정중앙 + 크게(scale 1.2) */
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(1.4);
+    /* 부드러운 가속감 유지 */
+    transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                top 1.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 9001;
-    cursor: pointer;
+    will-change: transform, top, left;
   }
-  /* 헤더 높이 52px, 로고 32px → (52-32)/2 = 10px */
+/* 결승점 도착: 왼쪽 상단 헤더 위치 + 작아짐(scale 0.9) */
   #m-intro-logo.moved {
-    top: 10px;
-    left: 20px;
-    transform: translate(0, 0);
-    height: 32px;
+    top: 25px; left: 20px;
+    transform: translate(0, 0) scale(0.9);
   }
+ 
+/* 도착 후 애니메이션 고정 */
   #m-intro-logo.settled {
-    transition: none;
+    transition: none !important;
   }
 
-  /* 깜빡이는 점 */
+/* 가운데 작은 점 */
   #m-intro-dot {
-    display: block;
+    display: inline-block !important;
     position: fixed;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--black);
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9001;
     opacity: 0;
-  }
-  @keyframes dot-blink {
-    0%   { opacity: 0; }
-    20%  { opacity: 1; }
-    50%  { opacity: 0; }
-    70%  { opacity: 1; }
-    90%  { opacity: 0; }
-    100% { opacity: 0; }
+    z-index: 9001;
   }
   #m-intro-dot.blink {
-    animation: dot-blink 1.2s ease forwards;
+    animation: m-blink 0.8s infinite alternate;
   }
+}
+
+@keyframes m-blink {
+  from { opacity: 0; } to { opacity: 1; }
 }
 
 :root {
