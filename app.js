@@ -797,47 +797,51 @@ function stopConfetti() {
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// ── 모바일 인트로 ──
-// ── 모바일 인트로 ──
+네, 정확합니다! 기존에 가지고 계시던 그 긴 부분을 통째로 삭제하시고, 제가 정리해 드린 window.requestAnimationFrame이 포함된 새로운 코드로 갈아끼우시면 됩니다.
+
+사용자님이 원하시는 1. 로고 크게 등장 → 2. 작아지며 헤더로 이동 → 3. 중앙 점 깜빡임 → 4. 메뉴 등장 순서가 사파리에서 꼬이지 않도록 타이밍을 정밀하게 맞춘 최종 버전입니다.
+
+복사해서 바로 붙여넣으실 수 있게 다시 한번 정리해 드릴게요.
+
+app.js 맨 아래에 붙여넣을 최종 코드
+JavaScript
+// ── 모바일 인트로 최종 (순서: 로고이동 -> 점깜빡 -> 메뉴등장) ──
 if (window.innerWidth <= 800) {
   const logo = document.getElementById('m-intro-logo');
   const overlay = document.getElementById('m-intro-overlay');
   const dot = document.getElementById('m-intro-dot');
   const menu = document.getElementById('m-home-menu');
 
-  // 처음엔 아코디언 메뉴 숨김
+  // [0단계] 초기 세팅: 메뉴 숨김 & 로고 클릭 이벤트
   if (menu) {
     menu.style.opacity = '0';
     menu.style.transition = 'none';
   }
-
   if (logo) logo.addEventListener('click', mGoHome);
 
-  // 1000ms: 로고 헤더 위치로 이동
-  setTimeout(() => {
-    if (logo) logo.classList.add('moved');
-  }, 1000);
+  // 사파리 대응: 브라우저가 준비되었을 때 실행
+  window.requestAnimationFrame(() => {
+    
+    // [1&2단계] 1초 뒤: 로고가 중앙(크게)에서 헤더(작게)로 이동 시작
+    setTimeout(() => {
+      if (logo) logo.classList.add('moved');
+    }, 1000);
 
-  // 2200ms: 로고 이동 완료 후 점 깜빡이 시작
-  setTimeout(() => {
-    if (dot) dot.classList.add('blink');
-  }, 2200);
+    // [3단계] 2.2초 뒤: 로고 이동 완료 시점에 "중앙"에서 점 깜빡임 시작
+    // (CSS에서 점의 위치가 top 50%, left 50%로 고정되어 있어야 합니다)
+    setTimeout(() => {
+      if (logo) logo.classList.add('settled'); // 로고 애니메이션 엔진 정지
+      if (dot) dot.classList.add('blink');
+    }, 2200);
 
-  // 3400ms: 오버레이 페이드아웃
-  setTimeout(() => {
-    if (overlay) {
-      overlay.style.transition = 'opacity 0.5s ease';
-      overlay.style.opacity = '0';
-    }
-  }, 3400);
-
-  // 3900ms: 오버레이 제거, 로고 고정, 메뉴 페이드인
-  setTimeout(() => {
-    if (overlay) overlay.classList.add('done');
-    if (logo) logo.classList.add('settled');
-    if (menu) {
-      menu.style.transition = 'opacity 0.5s ease';
-      menu.style.opacity = '1';
-    }
-  }, 3900);
+    // [4단계] 3.4초 뒤: 오버레이 사라지고 아코디언 메뉴 등장
+    setTimeout(() => {
+      if (overlay) overlay.classList.add('done'); // 배경 삭제
+      if (dot) dot.style.display = 'none';        // 점 삭제
+      if (menu) {
+        menu.style.transition = 'opacity 0.8s ease';
+        menu.style.opacity = '1';                 // 메뉴 페이드인
+      }
+    }, 3400);
+  });
 }
