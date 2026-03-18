@@ -780,8 +780,10 @@ function openMobileViewer(projIdx, type) {
   overlay.innerHTML = `
     <div class="m-viewer-header">
       <button class="m-viewer-close" onclick="closeMobileViewer()">Close ×</button>
-      <span class="m-viewer-name">${p.name}</span>
-      <span class="m-viewer-meta">${meta}</span>
+      <div class="m-viewer-info">
+        <span class="m-viewer-name">${p.name}</span>
+        <span class="m-viewer-meta">${meta}</span>
+      </div>
     </div>
     <div class="m-viewer-img-wrap" id="m-viewer-img-wrap">
       <img src="${imgs[0]}" alt="${p.name}" id="m-viewer-img">
@@ -814,7 +816,13 @@ function mViewerGo(idx) {
   if (!imgs || idx < 0 || idx >= imgs.length) return;
   window._mViewerCur = idx;
   const img = document.getElementById('m-viewer-img');
-  if (img) img.src = imgs[idx];
+  if (img) {
+    img.classList.add('fade');
+    setTimeout(() => {
+      img.src = imgs[idx];
+      img.onload = () => img.classList.remove('fade');
+    }, 180);
+  }
   document.querySelectorAll('.m-viewer-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
 }
 
