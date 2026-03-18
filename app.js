@@ -155,8 +155,8 @@ function initSliderInteractions() {
       if (!entry || !entry.classList.contains('expanded')) return;
       e.preventDefault();
       const total = slider.querySelectorAll('.proj-slider-track img').length;
-      if (e.deltaX > 80 || e.deltaY > 80)  sNext(sliderId, total, { stopPropagation: () => {} });
-      if (e.deltaX < -80 || e.deltaY < -80) sPrev(sliderId, total, { stopPropagation: () => {} });
+      if (e.deltaX > 90 || e.deltaY > 90)  sNext(sliderId, total, { stopPropagation: () => {} });
+      if (e.deltaX < -90 || e.deltaY < -90) sPrev(sliderId, total, { stopPropagation: () => {} });
     }, { passive: false });
 
     // ── 드래그 (마우스) ──
@@ -173,7 +173,7 @@ function initSliderInteractions() {
       if (!entry || !entry.classList.contains('expanded') || dragStartX === null) { dragStartX = null; return; }
       const diff = dragStartX - e.clientX;
       const total = slider.querySelectorAll('.proj-slider-track img').length;
-      if (Math.abs(diff) > 40) {
+      if (Math.abs(diff) > 30) {
         const fakeE = { stopPropagation: () => {} };
         if (diff > 0) sNext(sliderId, total, fakeE);
         else sPrev(sliderId, total, fakeE);
