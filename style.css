@@ -668,7 +668,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     flex-direction: column;
     align-items: center;
     min-height: auto;
-    margin-top: 200px;
+    margin-top: 250px;
     padding: 0 28px;
     gap: 0;
   }
@@ -690,7 +690,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   .m-home-menu-label.active { opacity: 0.3; text-decoration: line-through; }
   .m-home-menu-arrow { display: none; }
   .m-home-menu-item.open .m-home-menu-arrow { transform: rotate(180deg); }
-  .m-home-menu-item.open .m-home-menu-content { padding: 4px 0 12px; }
+  .m-home-menu-item.open .m-home-menu-content { padding: 4px 0 12px; overflow: visible; }
   .m-home-sub-label {
     font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
     padding: 6px 0; color: var(--mid); cursor: pointer;
