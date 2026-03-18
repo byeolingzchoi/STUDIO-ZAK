@@ -798,6 +798,7 @@ function stopConfetti() {
 }
 
 // ── 모바일 인트로 ──
+// ── 모바일 인트로 ──
 if (window.innerWidth <= 800) {
   const logo = document.getElementById('m-intro-logo');
   const overlay = document.getElementById('m-intro-overlay');
@@ -840,5 +841,3 @@ if (window.innerWidth <= 800) {
     }
   }, 3900);
 }
-
-window.addEventListener('pageshow', runMobileIntro);
