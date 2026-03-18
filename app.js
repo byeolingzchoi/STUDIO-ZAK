@@ -94,9 +94,9 @@ function sNext(sliderId, total, e) {
   e.stopPropagation();
   const slider = document.getElementById(sliderId);
   const cur = slider._idx || 0;
-  const next = (cur + 1) % total;
+  const next = Math.min(cur + 1, total - 1); // 마지막에서 멈춤
   slider._idx = next;
-  slider.querySelector('.proj-slider-track').style.transform = `translateX(-${next * 88 + next * 2}%)`;
+  slider.querySelector('.proj-slider-track').style.transform = `translateX(-${next * 90}%)`;
   const dotsWrap = document.getElementById('dots-' + sliderId);
   if (dotsWrap) dotsWrap.querySelectorAll('.proj-slider-dot').forEach((d,i) => d.classList.toggle('on', i===next));
 }
@@ -105,9 +105,9 @@ function sPrev(sliderId, total, e) {
   e.stopPropagation();
   const slider = document.getElementById(sliderId);
   const cur = slider._idx || 0;
-  const prev = (cur - 1 + total) % total;
+  const prev = Math.max(cur - 1, 0); // 처음에서 멈춤
   slider._idx = prev;
-  slider.querySelector('.proj-slider-track').style.transform = `translateX(-${prev * 88 + prev * 2}%)`;
+  slider.querySelector('.proj-slider-track').style.transform = `translateX(-${prev * 90}%)`;
   const dotsWrap = document.getElementById('dots-' + sliderId);
   if (dotsWrap) dotsWrap.querySelectorAll('.proj-slider-dot').forEach((d,i) => d.classList.toggle('on', i===prev));
 }
