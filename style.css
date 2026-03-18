@@ -69,11 +69,13 @@
 
   /* 3. 로고 이동 상태 (좌측 상단) */
   #m-intro-logo.moved {
-    top: 20px !important;
-    left: 0px !important;
-    transform: translate(0, 0) scale(0.6) translateZ(0) !important;
-    -webkit-transform: translate(0, 0) scale(0.6) translateZ(0) !important;
-  }
+  top: 20px !important;
+  left: 5px !important;
+  transform: translate(0, 0) scale(0.6) translateZ(0) !important;
+  -webkit-transform: translate(0, 0) scale(0.6) translateZ(0) !important;
+  transform-origin: left top !important;  ← 이거 추가
+  -webkit-transform-origin: left top !important;  ← 이것도
+}
 
   /* 4. 이동 완료 후 트랜지션 끔 */
   #m-intro-logo.settled {
@@ -666,7 +668,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin-top: -30px;
+    margin-top: -40px;
     padding: 0 28px;
     gap: 0;
   }
