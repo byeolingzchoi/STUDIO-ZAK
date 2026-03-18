@@ -1020,3 +1020,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 .m-viewer-dot.on {
   background: #111;
 }
+
+/* 화살표 완전 제거 */
+.proj-slider-arrows { display: none !important; }
+.s-arrow { display: none !important; }
