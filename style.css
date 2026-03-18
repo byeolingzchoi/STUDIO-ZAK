@@ -11,17 +11,19 @@
   position: fixed;
   width: 14px; height: 14px;
   border-radius: 50%;
-  background: #000000;
+  background: #000;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: width 0.2s ease, height 0.2s ease;
   mix-blend-mode: difference;
-  top: -100px; left: -100px;
+  top: 0; left: 0;
+  opacity: 0;
 }
-#cursor.visible {
+#cursor.active {
   opacity: 1;
 }
+
 #cursor.hover {
   width: 25px; height: 25px;
 }

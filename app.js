@@ -368,7 +368,7 @@ if (cur) {
   document.addEventListener('mousemove', e => {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
-    if (!cur.classList.contains('visible')) cur.classList.add('visible');
+    cur.classList.add('active');
   });
   document.addEventListener('mouseover', e => {
     const el = e.target.closest('a, button, [onclick], .proj-slider, .s-arrow, .proj-detail-close');
@@ -807,6 +807,10 @@ function stopConfetti() {
   // 순수하게 화면 너비만으로 판단 — ontouchstart는 터치스크린 노트북에서 오작동
   if (window.innerWidth > 800) return;
 
+  // 모바일에서만 실행 — 메뉴를 인트로 끝날 때까지 숨김
+  var _menu = document.getElementById('m-home-menu');
+  if (_menu) { _menu.style.opacity = '0'; _menu.style.pointerEvents = 'none'; }
+
   function runIntro() {
     var logo    = document.getElementById('m-intro-logo');
     var overlay = document.getElementById('m-intro-overlay');
@@ -851,12 +855,13 @@ function stopConfetti() {
     });
   }
 
-  // load 완료 + 150ms 여유 (사파리 렌더링 안정화)
+  // load 완료 + 150ms 여유. 이미지 실패해도 DOMContentLoaded 3초 후 강제 실행
+  var _done = false;
+  function _go() { if (_done) return; _done = true; setTimeout(runIntro, 150); }
   if (document.readyState === 'complete') {
-    setTimeout(runIntro, 150);
+    _go();
   } else {
-    window.addEventListener('load', function() {
-      setTimeout(runIntro, 150);
-    });
+    window.addEventListener('load', _go);
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 3000); });
   }
 })();
