@@ -803,14 +803,9 @@ function stopConfetti() {
 
 // ── 모바일 인트로 (Safari 완전 호환) ──
 (function() {
-  // 터치 디바이스 or 좁은 화면일 때만 실행
-  function isMobileDevice() {
-    return window.innerWidth <= 800 || ('ontouchstart' in window);
-  }
+  // 순수하게 화면 너비만으로 판단 — ontouchstart는 터치스크린 노트북에서 오작동
+  if (window.innerWidth > 800) return;
 
-  if (!isMobileDevice()) return;
-
-  // Safari 사생활보호모드 포함 안전하게 실행
   function runIntro() {
     var logo    = document.getElementById('m-intro-logo');
     var overlay = document.getElementById('m-intro-overlay');
@@ -819,39 +814,43 @@ function stopConfetti() {
 
     if (!logo || !overlay) return;
 
-    // 강제 reflow: 사파리가 초기 위치를 제대로 계산하도록 유도
-    void logo.offsetHeight;
-    void overlay.offsetHeight;
-
-    // 1단계: 1초 후 로고를 헤더 위치로 이동
-    setTimeout(function() {
+    // 사파리: 초기 위치를 확실히 페인트시킨 뒤 트랜지션 시작
+    // rAF 두 번 중첩 = 다음 프레임 보장
+    requestAnimationFrame(function() {
       requestAnimationFrame(function() {
-        logo.classList.add('moved');
-      });
-    }, 1000);
+        void logo.offsetHeight; // force reflow
 
-    // 2단계: 이동 완료 후 고정 + 점 깜빡임
-    setTimeout(function() {
-      requestAnimationFrame(function() {
-        logo.classList.add('settled');
-        if (dot) dot.classList.add('blink');
-      });
-    }, 2300);
+        // 1단계: 로고를 헤더 위치로 이동
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            logo.classList.add('moved');
+          });
+        }, 800);
 
-    // 3단계: 오버레이 사라지고 메뉴 등장
-    setTimeout(function() {
-      requestAnimationFrame(function() {
-        overlay.classList.add('done');
-        if (dot) dot.style.opacity = '0';
-        if (menu) {
-          menu.style.opacity = '1';
-          menu.style.pointerEvents = 'auto';
-        }
+        // 2단계: 트랜지션 끄고 고정 + 점 깜빡임
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            logo.classList.add('settled');
+            if (dot) dot.classList.add('blink');
+          });
+        }, 2100);
+
+        // 3단계: 오버레이 페이드아웃 + 메뉴 등장
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            overlay.classList.add('done');
+            if (dot) { dot.style.opacity = '0'; dot.classList.remove('blink'); }
+            if (menu) {
+              menu.style.opacity = '1';
+              menu.style.pointerEvents = 'auto';
+            }
+          });
+        }, 3200);
       });
-    }, 3500);
+    });
   }
 
-  // load 이벤트 + 추가 딜레이로 사파리 렌더링 안정화
+  // load 완료 + 150ms 여유 (사파리 렌더링 안정화)
   if (document.readyState === 'complete') {
     setTimeout(runIntro, 150);
   } else {
