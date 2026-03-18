@@ -810,34 +810,38 @@ JavaScript
 if (window.innerWidth <= 800) {
   const logo = document.getElementById('m-intro-logo');
   const overlay = document.getElementById('m-intro-overlay');
-  const dot = document.getElementById('m-intro-dot');
-  const menu = document.getElementById('m-home-menu');
+  
+  // 사파리 깨짐 방지: 강제로 레이아웃 계산 유도
+  if (logo) {
+    const forceReflow = logo.offsetHeight; 
+  }
 
-  if (logo) logo.addEventListener('click', mGoHome);
+  window.addEventListener('load', () => {
+    // 사파리가 정신 차릴 시간 0.1초를 더 줍니다.
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        // 로고 무빙 시작
+        setTimeout(() => {
+          if (logo) logo.classList.add('moved');
+        }, 1000);
 
-  // 모든 리소스 로드 후 사파리 엔진 깨우기
-  window.onload = () => {
-    window.requestAnimationFrame(() => {
-      // [단계 1&2] 1초 뒤 로고 이동 및 축소 시작
-      setTimeout(() => {
-        if (logo) logo.classList.add('moved');
-      }, 1000);
+        // 로고 고정 및 점 깜빡임
+        setTimeout(() => {
+          if (logo) logo.classList.add('settled');
+          const dot = document.getElementById('m-intro-dot');
+          if (dot) dot.classList.add('blink');
+        }, 2200);
 
-      // [단계 3] 2.2초 뒤 로고 고정 및 점 깜빡임 시작
-      setTimeout(() => {
-        if (logo) logo.classList.add('settled');
-        if (dot) dot.classList.add('blink');
-      }, 2200);
-
-      // [단계 4] 3.4초 뒤 배경 삭제 및 메뉴 등장
-      setTimeout(() => {
-        if (overlay) overlay.classList.add('done');
-        if (dot) dot.style.display = 'none';
-        if (menu) {
-          menu.style.opacity = '1';
-          menu.style.pointerEvents = 'auto';
-        }
-      }, 3400);
-    });
-  };
+        // 종료 및 메뉴 등장
+        setTimeout(() => {
+          if (overlay) overlay.classList.add('done');
+          const menu = document.getElementById('m-home-menu');
+          if (menu) {
+            menu.style.opacity = '1';
+            menu.style.pointerEvents = 'auto';
+          }
+        }, 3400);
+      });
+    }, 100);
+  });
 }
