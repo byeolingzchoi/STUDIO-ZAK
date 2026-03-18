@@ -45,7 +45,7 @@
     pointer-events: none;
   }
 
-  /* 로고: 처음엔 정중앙, transform으로만 이동 (사파리 안전) */
+ /* 로고: 처음엔 정중앙, transform으로만 이동 (사파리 안전) */
   #m-intro-logo {
     display: block !important;
     position: fixed;
@@ -59,14 +59,15 @@
     opacity: 1;
     visibility: visible;
     z-index: 9100;
+    will-change: transform;
+    -webkit-will-change: transform;
     transition: transform 1.1s cubic-bezier(0.4, 0, 0.2, 1),
                 top      1.1s cubic-bezier(0.4, 0, 0.2, 1),
                 left     1.1s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-transition: -webkit-transform 1.1s cubic-bezier(0.4, 0, 0.2, 1),
                         top  1.1s cubic-bezier(0.4, 0, 0.2, 1),
                         left 1.1s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
+}
   /* 헤더 위치로 이동 */
   #m-intro-logo.moved {
     top: 16px  !important;
@@ -77,9 +78,11 @@
 
   /* 이동 완료 후 트랜지션 끔 (사파리 깜빡임 방지) */
   #m-intro-logo.settled {
-    transition: none !important;
+     transition: none !important;
     -webkit-transition: none !important;
-  }
+    will-change: auto;
+    -webkit-will-change: auto;
+}
 
   /* 가운데 점 */
   #m-intro-dot {
@@ -100,6 +103,10 @@
 }
 
 @keyframes m-blink {
+  from { opacity: 0; } to { opacity: 1; }
+}
+/* Safari용 */
+@-webkit-keyframes m-blink {
   from { opacity: 0; } to { opacity: 1; }
 }
 
