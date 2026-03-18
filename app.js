@@ -418,68 +418,30 @@ function mToggle(key) {
       if (aboutInner) content.innerHTML = aboutInner.outerHTML;
     } else if (key === 'interior') {
       content.innerHTML = '<div id="m-scroll-interior" style="padding:0"></div>';
-      const mType = 'interior';
       const mContainer = document.getElementById('m-scroll-interior');
-      const mList = PROJECTS.filter(p => p.type === mType).sort((a, b) => b.year - a.year);
+      const mList = PROJECTS.filter(p => p.type === 'interior').sort((a, b) => b.year - a.year);
       mList.forEach((p, i) => {
         const imgs = (p.images || []).filter(Boolean);
-        const entryId = 'm-entry-interior-' + i;
-        const sliderId = 'm-slider-interior-' + i;
         const meta = [p.cat, p.size, p.year].filter(Boolean).join(' · ');
-        let sliderHTML = imgs.length > 0
-          ? buildSliderHTML(p, imgs, entryId, sliderId)
-          : placeholderSVG(i);
         const div = document.createElement('div');
-        div.className = 'proj-entry';
-        div.id = entryId;
-        div.style.marginBottom = '40px';
-        const detailBar = document.createElement('div');
-        detailBar.className = 'proj-detail-bar';
-        detailBar.innerHTML = `<span class="proj-detail-close" onclick="sCollapse('${entryId}','${sliderId}',event)">Close ×</span><span class="proj-detail-name">${p.name}</span><span class="proj-detail-meta">${meta}</span>`;
-        const entryImg = document.createElement('div');
-        entryImg.className = 'proj-entry-img';
-        const mobileTitle = document.createElement('div');
-        mobileTitle.className = 'proj-mobile-title';
-        mobileTitle.innerHTML = `${p.name}<span class="proj-mobile-meta">${meta}</span>`;
-        entryImg.appendChild(mobileTitle);
-        entryImg.insertAdjacentHTML('beforeend', sliderHTML);
-        div.appendChild(detailBar);
-        div.appendChild(entryImg);
+        div.className = 'm-proj-thumb';
+        const thumb = imgs[0] ? `<img src="${imgs[0]}" alt="${p.name}">` : placeholderSVG(i);
+        div.innerHTML = `<div class="m-proj-thumb-img" onclick="openMobileViewer(${i},'interior')">${thumb}</div><div class="m-proj-thumb-info"><span class="m-proj-thumb-name">${p.name}</span><span class="m-proj-thumb-meta">${meta}</span></div>`;
         mContainer.appendChild(div);
       });
-      initSliderInteractions();
     } else if (key === 'furniture') {
       content.innerHTML = '<div id="m-scroll-furniture" style="padding:0"></div>';
-      const mType2 = 'furniture';
       const mContainer2 = document.getElementById('m-scroll-furniture');
-      const mList2 = PROJECTS.filter(p => p.type === mType2).sort((a, b) => b.year - a.year);
+      const mList2 = PROJECTS.filter(p => p.type === 'furniture').sort((a, b) => b.year - a.year);
       mList2.forEach((p, i) => {
         const imgs = (p.images || []).filter(Boolean);
-        const entryId = 'm-entry-furniture-' + i;
-        const sliderId = 'm-slider-furniture-' + i;
         const meta = [p.cat, p.size, p.year].filter(Boolean).join(' · ');
-        let sliderHTML = imgs.length > 0
-          ? buildSliderHTML(p, imgs, entryId, sliderId)
-          : placeholderSVG(i);
         const div = document.createElement('div');
-        div.className = 'proj-entry';
-        div.id = entryId;
-        div.style.marginBottom = '40px';
-        const detailBar2 = document.createElement('div');
-        detailBar2.className = 'proj-detail-bar';
-        detailBar2.innerHTML = `<span class="proj-detail-close" onclick="sCollapse('${entryId}','${sliderId}',event)">Close ×</span><span class="proj-detail-name">${p.name}</span><span class="proj-detail-meta">${meta}</span>`;
-        const entryImg2 = document.createElement('div');
-        entryImg2.className = 'proj-entry-img';
-        const mobileTitle2 = document.createElement('div');
-        mobileTitle2.className = 'proj-mobile-title';
-        mobileTitle2.innerHTML = `${p.name}<span class="proj-mobile-meta">${meta}</span>`;
-        entryImg2.appendChild(mobileTitle2);
-        entryImg2.insertAdjacentHTML('beforeend', sliderHTML);
-        div.appendChild(detailBar2);
-        div.appendChild(entryImg2);
+        div.className = 'm-proj-thumb';
+        const thumb = imgs[0] ? `<img src="${imgs[0]}" alt="${p.name}">` : placeholderSVG(i);
+        div.innerHTML = `<div class="m-proj-thumb-img" onclick="openMobileViewer(${i},'furniture')">${thumb}</div><div class="m-proj-thumb-info"><span class="m-proj-thumb-name">${p.name}</span><span class="m-proj-thumb-meta">${meta}</span></div>`;
         mContainer2.appendChild(div);
       });
-      initSliderInteractions();
     } else if (key === 'archive') {
       const gridWrap = document.createElement('div');
       gridWrap.className = 'archive-grid';
@@ -799,6 +761,66 @@ function stopConfetti() {
   cancelAnimationFrame(confettiAnim);
   const canvas = document.getElementById('easter-confetti');
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+// ── 모바일 전체화면 이미지 뷰어 ──
+function openMobileViewer(projIdx, type) {
+  const list = PROJECTS.filter(p => p.type === type).sort((a, b) => b.year - a.year);
+  const p = list[projIdx];
+  if (!p) return;
+  const imgs = (p.images || []).filter(Boolean);
+  if (!imgs.length) return;
+
+  const meta = [p.cat, p.size, p.year].filter(Boolean).join(' · ');
+  let cur = 0;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'm-viewer-overlay';
+  overlay.innerHTML = `
+    <div class="m-viewer-header">
+      <button class="m-viewer-close" onclick="closeMobileViewer()">Close ×</button>
+      <span class="m-viewer-name">${p.name}</span>
+      <span class="m-viewer-meta">${meta}</span>
+    </div>
+    <div class="m-viewer-img-wrap" id="m-viewer-img-wrap">
+      <img src="${imgs[0]}" alt="${p.name}" id="m-viewer-img">
+    </div>
+    <div class="m-viewer-dots" id="m-viewer-dots">
+      ${imgs.map((_, i) => `<span class="m-viewer-dot${i===0?' on':''}" onclick="mViewerGo(${i})"></span>`).join('')}
+    </div>`;
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+
+  // 스와이프
+  let tx = 0;
+  const wrap = document.getElementById('m-viewer-img-wrap');
+  wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchend', e => {
+    const diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
+      if (diff < 0 && cur > 0) mViewerGo(cur - 1);
+    }
+  }, { passive: true });
+
+  window._mViewerImgs = imgs;
+  window._mViewerCur = 0;
+}
+
+function mViewerGo(idx) {
+  const imgs = window._mViewerImgs;
+  if (!imgs || idx < 0 || idx >= imgs.length) return;
+  window._mViewerCur = idx;
+  const img = document.getElementById('m-viewer-img');
+  if (img) img.src = imgs[idx];
+  document.querySelectorAll('.m-viewer-dot').forEach((d, i) => d.classList.toggle('on', i === idx));
+}
+
+function closeMobileViewer() {
+  const el = document.getElementById('m-viewer-overlay');
+  if (el) el.remove();
+  document.body.style.overflow = '';
 }
 
 // ── 모바일 인트로 (Safari 완전 호환) ──

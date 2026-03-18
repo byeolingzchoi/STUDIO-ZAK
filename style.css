@@ -881,3 +881,105 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 .proj-slider-dots { display:flex; gap:6px; margin-top:10px; }
 .proj-slider-dot { width:5px; height:5px; border-radius:50%; background:var(--light); cursor:pointer; transition:background 0.3s; }
 .proj-slider-dot.on { background:var(--black); }
+
+/* ── 모바일 프로젝트 썸네일 ── */
+@media (max-width: 800px) {
+  .m-proj-thumb {
+    margin-bottom: 32px;
+  }
+  .m-proj-thumb-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .m-proj-thumb-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .m-proj-thumb-info {
+    padding: 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .m-proj-thumb-name {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .m-proj-thumb-meta {
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+  }
+}
+
+/* ── 모바일 전체화면 뷰어 ── */
+#m-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+.m-viewer-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 0.5px solid #eee;
+  gap: 12px;
+}
+.m-viewer-close {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--mid);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--f);
+  flex-shrink: 0;
+}
+.m-viewer-name {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.m-viewer-meta {
+  font-size: 11px;
+  color: var(--mid);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.m-viewer-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.m-viewer-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.m-viewer-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px;
+}
+.m-viewer-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #ddd;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.m-viewer-dot.on {
+  background: #111;
+}
