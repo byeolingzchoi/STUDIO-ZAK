@@ -11,14 +11,12 @@
   position: fixed;
   width: 14px; height: 14px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #000000;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: width 0.2s ease, height 0.2s ease;
   mix-blend-mode: difference;
-  /* 마우스 첫 움직임 전까지 숨김 — 왼쪽 상단 고정 방지 */
-  opacity: 0;
   top: -100px; left: -100px;
 }
 #cursor.visible {
