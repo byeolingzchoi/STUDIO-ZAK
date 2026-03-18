@@ -798,7 +798,8 @@ function openMobileViewer(projIdx, type) {
   wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
   wrap.addEventListener('touchend', e => {
     const diff = tx - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
+    const cur = window._mViewerCur;
+    if (Math.abs(diff) > 30) {
       if (diff > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
       if (diff < 0 && cur > 0) mViewerGo(cur - 1);
     }
