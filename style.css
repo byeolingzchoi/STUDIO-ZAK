@@ -805,12 +805,17 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   width: calc(100vw - 200px - 80px);
   max-width: none;
   position: relative;
+  overflow: visible;
 }
 /* 화살표를 proj-entry-img 전체 너비 기준으로 */
 .proj-entry.expanded .proj-slider-arrows {
-  width: 100%;
-  left: 0;
-  padding: 0 16px;
+  position: absolute !important;
+  width: 100% !important;
+  left: 0 !important;
+  padding: 0 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  box-sizing: border-box !important;
 }
 /* 확장 시 오른쪽 정보 숨기기 */
 .proj-entry.expanded .proj-entry-info {
