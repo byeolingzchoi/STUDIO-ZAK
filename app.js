@@ -812,36 +812,37 @@ if (window.innerWidth <= 800) {
   const dot = document.getElementById('m-intro-dot');
   const menu = document.getElementById('m-home-menu');
 
-  // [0단계] 초기 세팅: 메뉴 숨김 & 로고 클릭 이벤트
+  // [0단계] 초기 세팅: 메뉴 숨김
   if (menu) {
     menu.style.opacity = '0';
     menu.style.transition = 'none';
   }
   if (logo) logo.addEventListener('click', mGoHome);
 
-  // 사파리 대응: 브라우저가 준비되었을 때 실행
-  window.requestAnimationFrame(() => {
-    
-    // [1&2단계] 1초 뒤: 로고가 중앙(크게)에서 헤더(작게)로 이동 시작
-    setTimeout(() => {
-      if (logo) logo.classList.add('moved');
-    }, 1000);
+  // 사파리 대응: 브라우저가 '진짜' 준비될 때까지 살짝 기다림
+  window.onload = () => {
+    window.requestAnimationFrame(() => {
+      
+      // [1&2단계] 1초 뒤: 로고가 중앙에서 헤더로 이동 시작
+      setTimeout(() => {
+        if (logo) logo.classList.add('moved');
+      }, 1000);
 
-    // [3단계] 2.2초 뒤: 로고 이동 완료 시점에 "중앙"에서 점 깜빡임 시작
-    // (CSS에서 점의 위치가 top 50%, left 50%로 고정되어 있어야 합니다)
-    setTimeout(() => {
-      if (logo) logo.classList.add('settled'); // 로고 애니메이션 엔진 정지
-      if (dot) dot.classList.add('blink');
-    }, 2200);
+      // [3단계] 2.2초 뒤: 중앙 점 깜빡임 시작
+      setTimeout(() => {
+        if (logo) logo.classList.add('settled');
+        if (dot) dot.classList.add('blink');
+      }, 2200);
 
-    // [4단계] 3.4초 뒤: 오버레이 사라지고 아코디언 메뉴 등장
-    setTimeout(() => {
-      if (overlay) overlay.classList.add('done'); // 배경 삭제
-      if (dot) dot.style.display = 'none';        // 점 삭제
-      if (menu) {
-        menu.style.transition = 'opacity 0.8s ease';
-        menu.style.opacity = '1';                 // 메뉴 페이드인
-      }
-    }, 3400);
-  });
+      // [4단계] 3.4초 뒤: 오버레이 삭제 및 메뉴 등장
+      setTimeout(() => {
+        if (overlay) overlay.classList.add('done');
+        if (dot) dot.style.display = 'none';
+        if (menu) {
+          menu.style.transition = 'opacity 0.8s ease';
+          menu.style.opacity = '1';
+        }
+      }, 3400);
+    });
+  };
 }
