@@ -801,53 +801,38 @@ function stopConfetti() {
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// ── 모바일 인트로 (Safari 완전 호환) ──
+// ── 모바일 인트로 (Safari 완전 호환) ── //
 (function() {
-  // 순수하게 화면 너비만으로 판단
   if (window.innerWidth > 800) return;
-
-  // 모바일에서만 실행 — 메뉴를 인트로 끝날 때까지 숨김
   var _menu = document.getElementById('m-home-menu');
   if (_menu) { _menu.style.opacity = '0'; _menu.style.pointerEvents = 'none'; }
 
   function runIntro() {
-    var logo    = document.getElementById('m-intro-logo');
+    var logo = document.getElementById('m-intro-logo');
     var overlay = document.getElementById('m-intro-overlay');
-    var dot     = document.getElementById('m-intro-dot');
-    var menu    = document.getElementById('m-home-menu');
-
+    var dot = document.getElementById('m-intro-dot');
+    var menu = document.getElementById('m-home-menu');
     if (!logo || !overlay) return;
 
-    // Safari: 초기 위치를 확실히 페인트시킨 뒤 시작
     void logo.offsetHeight;
     void overlay.offsetHeight;
 
-    // 1단계: 200ms 후 로고를 헤더 위치로 이동
     setTimeout(function() {
       logo.classList.add('moved');
     }, 200);
 
-    // 2단계: 1.4s 후 트랜지션 끄고 + 점 깜빡임
     setTimeout(function() {
       logo.classList.add('settled');
       if (dot) dot.classList.add('blink');
     }, 1400);
 
-    // 3단계: 2.1s 후 오버레이 페이드아웃 + 메뉴 등장
     setTimeout(function() {
       overlay.classList.add('done');
-      if (dot) {
-        dot.style.opacity = '0';
-        dot.classList.remove('blink');
-      }
-      if (menu) {
-        menu.style.opacity = '1';
-        menu.style.pointerEvents = 'auto';
-      }
+      if (dot) { dot.style.opacity = '0'; dot.classList.remove('blink'); }
+      if (menu) { menu.style.opacity = '1'; menu.style.pointerEvents = 'auto'; }
     }, 2100);
   }
 
-  // load 완료 + 300ms 여유
   var _done = false;
   function _go() { if (_done) return; _done = true; setTimeout(runIntro, 300); }
   if (document.readyState === 'complete') {
@@ -855,14 +840,5 @@ function stopConfetti() {
   } else {
     window.addEventListener('load', _go);
     document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 2000); });
-  }
-})();
-  var _done = false;
-  function _go() { if (_done) return; _done = true; setTimeout(runIntro, 150); }
-  if (document.readyState === 'complete') {
-    _go();
-  } else {
-    window.addEventListener('load', _go);
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(_go, 3000); });
   }
 })();
