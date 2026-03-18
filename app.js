@@ -837,7 +837,7 @@ function stopConfetti() {
             logo.classList.add('settled');
             if (dot) dot.classList.add('blink');
           });
-        }, 2100);
+        }, 2800);
 
         // 3단계: 오버레이 페이드아웃 + 메뉴 등장
         setTimeout(function() {
@@ -849,7 +849,7 @@ function stopConfetti() {
               menu.style.pointerEvents = 'auto';
             }
           });
-        }, 3200);
+        }, 4000);
       });
     });
   }
