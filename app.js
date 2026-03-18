@@ -214,9 +214,13 @@ function renderArchiveMobile(grid) {
 
   const projItems = PROJECTS.map((p, i) => ({ _kind: 'project', _origIdx: i, year: parseInt(p.year) || 0, data: p }));
 
+  // Safari 사생활보호모드에서 localStorage 접근 시 에러 방지
+  let localPosts = [];
+  try {
+    localPosts = JSON.parse(localStorage.getItem('zak_posts') || '[]');
+  } catch(e) { localPosts = []; }
   const postArr = (typeof POSTS !== 'undefined' ? POSTS : []).concat(
-    JSON.parse(localStorage.getItem('zak_posts') || '[]')
-      .filter(lp => !(typeof POSTS !== 'undefined' && POSTS.some(p => p.title === lp.title && p.date === lp.date)))
+    localPosts.filter(lp => !(typeof POSTS !== 'undefined' && POSTS.some(p => p.title === lp.title && p.date === lp.date)))
   );
   const postItems = postArr.map(p => ({ _kind: 'post', year: parseInt(p.date) || 0, data: p }));
 
@@ -797,51 +801,62 @@ function stopConfetti() {
   if (canvas) canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
 }
 
-네, 정확합니다! 기존에 가지고 계시던 그 긴 부분을 통째로 삭제하시고, 제가 정리해 드린 window.requestAnimationFrame이 포함된 새로운 코드로 갈아끼우시면 됩니다.
-
-사용자님이 원하시는 1. 로고 크게 등장 → 2. 작아지며 헤더로 이동 → 3. 중앙 점 깜빡임 → 4. 메뉴 등장 순서가 사파리에서 꼬이지 않도록 타이밍을 정밀하게 맞춘 최종 버전입니다.
-
-복사해서 바로 붙여넣으실 수 있게 다시 한번 정리해 드릴게요.
-
-app.js 맨 아래에 붙여넣을 최종 코드
-JavaScript
-
-// ── 모바일 인트로 최종 (순서: 로고이동 -> 점깜빡 -> 메뉴등장) ──
-if (window.innerWidth <= 800) {
-  const logo = document.getElementById('m-intro-logo');
-  const overlay = document.getElementById('m-intro-overlay');
-  
-  // 사파리 깨짐 방지: 강제로 레이아웃 계산 유도
-  if (logo) {
-    const forceReflow = logo.offsetHeight; 
+// ── 모바일 인트로 (Safari 완전 호환) ──
+(function() {
+  // 터치 디바이스 or 좁은 화면일 때만 실행
+  function isMobileDevice() {
+    return window.innerWidth <= 800 || ('ontouchstart' in window);
   }
 
-  window.addEventListener('load', () => {
-    // 사파리가 정신 차릴 시간 0.1초를 더 줍니다.
-    setTimeout(() => {
-      window.requestAnimationFrame(() => {
-        // 로고 무빙 시작
-        setTimeout(() => {
-          if (logo) logo.classList.add('moved');
-        }, 1000);
+  if (!isMobileDevice()) return;
 
-        // 로고 고정 및 점 깜빡임
-        setTimeout(() => {
-          if (logo) logo.classList.add('settled');
-          const dot = document.getElementById('m-intro-dot');
-          if (dot) dot.classList.add('blink');
-        }, 2200);
+  // Safari 사생활보호모드 포함 안전하게 실행
+  function runIntro() {
+    var logo    = document.getElementById('m-intro-logo');
+    var overlay = document.getElementById('m-intro-overlay');
+    var dot     = document.getElementById('m-intro-dot');
+    var menu    = document.getElementById('m-home-menu');
 
-        // 종료 및 메뉴 등장
-        setTimeout(() => {
-          if (overlay) overlay.classList.add('done');
-          const menu = document.getElementById('m-home-menu');
-          if (menu) {
-            menu.style.opacity = '1';
-            menu.style.pointerEvents = 'auto';
-          }
-        }, 3400);
+    if (!logo || !overlay) return;
+
+    // 강제 reflow: 사파리가 초기 위치를 제대로 계산하도록 유도
+    void logo.offsetHeight;
+    void overlay.offsetHeight;
+
+    // 1단계: 1초 후 로고를 헤더 위치로 이동
+    setTimeout(function() {
+      requestAnimationFrame(function() {
+        logo.classList.add('moved');
       });
-    }, 100);
-  });
-}
+    }, 1000);
+
+    // 2단계: 이동 완료 후 고정 + 점 깜빡임
+    setTimeout(function() {
+      requestAnimationFrame(function() {
+        logo.classList.add('settled');
+        if (dot) dot.classList.add('blink');
+      });
+    }, 2300);
+
+    // 3단계: 오버레이 사라지고 메뉴 등장
+    setTimeout(function() {
+      requestAnimationFrame(function() {
+        overlay.classList.add('done');
+        if (dot) dot.style.opacity = '0';
+        if (menu) {
+          menu.style.opacity = '1';
+          menu.style.pointerEvents = 'auto';
+        }
+      });
+    }, 3500);
+  }
+
+  // load 이벤트 + 추가 딜레이로 사파리 렌더링 안정화
+  if (document.readyState === 'complete') {
+    setTimeout(runIntro, 150);
+  } else {
+    window.addEventListener('load', function() {
+      setTimeout(runIntro, 150);
+    });
+  }
+})();
