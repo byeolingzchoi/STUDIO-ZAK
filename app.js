@@ -849,7 +849,7 @@ function stopConfetti() {
               menu.style.pointerEvents = 'auto';
             }
           });
-        }, 3200);
+        }, 3600);
       });
     });
   }
