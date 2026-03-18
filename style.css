@@ -17,13 +17,13 @@
   width: 25px; height: 25px;
 }
 #m-intro-overlay {
-  display: none;
+  display: none !important;
 }
 #m-intro-logo {
-  display: none;
+  display: none !important;
 }
 #m-intro-dot {
-  display: none;
+  display: none !important;
 }
 @media (max-width: 800px) {
   #cursor { display: none; }
@@ -33,7 +33,7 @@
     inset: 0;
     background: var(--white);
     z-index: 9000;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     opacity: 1;
@@ -44,7 +44,7 @@
 
   /* 모바일 로고: 중앙 시작 → 헤더 위치로 이동 */
   #m-intro-logo {
-    display: block;
+    display: block !important;
     position: fixed;
     height: 60px;
     top: 50%;
