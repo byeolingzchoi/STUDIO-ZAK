@@ -829,16 +829,48 @@ async function deploy() {
 }
 
 function patchHTML(html) {
-  // data.js 파일인 경우: PROJECTS / POSTS 교체
+  // data.js이면 파일 전체를 새로 생성 (regex 오작동 완전 방지)
   if (gh.path && gh.path.endsWith('.js')) {
-    html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, `const PROJECTS = ${JSON.stringify(projects, null, 2)};`);
-    html = html.replace(/const POSTS = \[[\s\S]*?\];/, `const POSTS = ${JSON.stringify(posts)};`);
-    return html;
+    return generateDataJS();
   }
-  // index.html 파일인 경우 (레거시)
-  html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, `const PROJECTS = ${JSON.stringify(projects, null, 2)};`);
-  html = html.replace(/const POSTS = \[[\s\S]*?\];/, `const POSTS = ${JSON.stringify(posts)};`);
+  // index.html 레거시: 괄호 카운팅 방식으로 안전하게 교체
+  html = replaceJSBlock(html, 'PROJECTS', JSON.stringify(projects, null, 2));
+  html = replaceJSBlock(html, 'POSTS', JSON.stringify(posts));
   return html;
+}
+
+function generateDataJS() {
+  return `// ══════════════════════════════════
+//  ✏️  프로젝트 데이터 — 여기만 수정하세요!
+//  (또는 admin.html에서 Save & Deploy)
+//
+//  type: "interior" 또는 "furniture"
+//  images: 이미지 URL 배열 (여러 장 가능)
+// ══════════════════════════════════
+
+const PROJECTS = ${JSON.stringify(projects, null, 2)};
+
+const POSTS = ${JSON.stringify(posts)};
+`;
+}
+
+function replaceJSBlock(html, varName, jsonStr) {
+  const startMarker = 'const ' + varName + ' = [';
+  const startIdx = html.indexOf(startMarker);
+  if (startIdx === -1) return html;
+  let depth = 0, endIdx = -1;
+  for (let i = startIdx + startMarker.length - 1; i < html.length; i++) {
+    if (html[i] === '[') depth++;
+    else if (html[i] === ']') {
+      depth--;
+      if (depth === 0) {
+        const semi = html.indexOf(';', i);
+        if (semi !== -1) { endIdx = semi; break; }
+      }
+    }
+  }
+  if (endIdx === -1) return html;
+  return html.slice(0, startIdx) + 'const ' + varName + ' = ' + jsonStr + html.slice(endIdx);
 }
 
 // index.html의 contact 섹션을 별도로 패치 (파일이 분리되어 있으므로)
