@@ -20,16 +20,6 @@ const PROJECTS = [
     ]
   },
   {
-    "name": "Unnamed Residence",
-    "type": "interior",
-    "cat": "Residential",
-    "size": "",
-    "year": "2024",
-    "images": [
-      ""
-    ]
-  },
-  {
     "name": "—",
     "type": "furniture",
     "cat": "Shelf",
@@ -40,16 +30,6 @@ const PROJECTS = [
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641873204_KakaoTalk_20260315_221246532_02.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641875567_KakaoTalk_20260315_221246532_03.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641878197_KakaoTalk_20260315_221246532_04.jpg"
-    ]
-  },
-  {
-    "name": "—",
-    "type": "interior",
-    "cat": "Commercial",
-    "size": "",
-    "year": "2022",
-    "images": [
-      ""
     ]
   },
   {
