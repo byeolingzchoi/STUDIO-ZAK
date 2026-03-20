@@ -48,4 +48,4 @@ const PROJECTS = [
   }
 ];
 
-const POSTS = [{"type":"sketch","title":"Untitled","tag":"SKETCH","date":"2026","image":"https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773663831761_2026-03-16-21-20-50_ju_sketch.jpeg","body":""}];
+const POSTS = [];
