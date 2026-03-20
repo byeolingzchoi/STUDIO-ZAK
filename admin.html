@@ -335,7 +335,7 @@ function changePW() {
 async function loadAll() {
   // gh 설정은 localStorage에서 (이건 브라우저별로 저장해도 됨)
   const sg = localStorage.getItem('zak_g');
-  gh = sg ? JSON.parse(sg) : {token:'', owner:'', repo:'', path:'index.html'};
+  gh = sg ? JSON.parse(sg) : {token:'', owner:'', repo:'', path:'data.js'};
 
   renderGH();
 
@@ -406,7 +406,10 @@ async function loadAll() {
     loadFromLocalStorage();
   }
 
-  posts = JSON.parse(localStorage.getItem('zak_posts') || '[]');
+  // posts는 GitHub에서 이미 불러왔으면 그걸 쓰고, 아니면 localStorage
+  if (!posts.length) {
+    posts = JSON.parse(localStorage.getItem('zak_posts') || '[]');
+  }
   renderProjects();
   renderContact();
   renderPosts();
@@ -421,10 +424,26 @@ function loadFromLocalStorage() {
 
 function defaultProjects() {
   return [
-    {name:'3A4B', type:'furniture', cat:'Storage', size:'1180×490×1030mmH', year:'2023', images:['']},
+    {name:'3A4B', type:'furniture', cat:'Storage', size:'1180×490×1030mmH', year:'2023', images:[
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641627044_KakaoTalk_20260315_221124642.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641630095_KakaoTalk_20260315_221124642_02.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641632972_KakaoTalk_20260315_221124642_04.jpg',
+    ]},
     {name:'Unnamed Residence', type:'interior', cat:'Residential', size:'', year:'2024', images:['']},
-    {name:'—', type:'furniture', cat:'Shelf', size:'', year:'2023', images:['']},
+    {name:'—', type:'furniture', cat:'Shelf', size:'', year:'2023', images:[
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641870641_KakaoTalk_20260315_221246532_01.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641873204_KakaoTalk_20260315_221246532_02.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641875567_KakaoTalk_20260315_221246532_03.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641878197_KakaoTalk_20260315_221246532_04.jpg',
+    ]},
     {name:'—', type:'interior', cat:'Commercial', size:'', year:'2022', images:['']},
+    {name:'F retail', type:'interior', cat:'Commercial', size:'', year:'2023', images:[
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754189400_3.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754190648_______2026-03-17_222912.png',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754184566_1.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754187146_2.jpg',
+      'https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754209974_5.jpg',
+    ]},
   ];
 }
 
@@ -671,7 +690,7 @@ function renderGH() {
   document.getElementById('s-token').value = gh.token || '';
   document.getElementById('s-owner').value = gh.owner || '';
   document.getElementById('s-repo').value = gh.repo || '';
-  document.getElementById('s-path').value = gh.path || 'index.html';
+  document.getElementById('s-path').value = gh.path || 'data.js';
   updateDot();
 }
 
@@ -679,7 +698,7 @@ function saveGH() {
   const token = document.getElementById('s-token').value.trim();
   const owner = document.getElementById('s-owner').value.trim();
   const repo  = document.getElementById('s-repo').value.trim();
-  const path  = document.getElementById('s-path').value.trim() || 'index.html';
+  const path  = document.getElementById('s-path').value.trim() || 'data.js';
   if (!token || !owner || !repo) {
     toast('토큰, 아이디, 레포 이름을 모두 입력하세요!', true);
     return;
@@ -810,12 +829,15 @@ async function deploy() {
 }
 
 function patchHTML(html) {
-  // data.js: PROJECTS 교체
+  // data.js 파일인 경우: PROJECTS / POSTS 교체
+  if (gh.path && gh.path.endsWith('.js')) {
+    html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, `const PROJECTS = ${JSON.stringify(projects, null, 2)};`);
+    html = html.replace(/const POSTS = \[[\s\S]*?\];/, `const POSTS = ${JSON.stringify(posts)};`);
+    return html;
+  }
+  // index.html 파일인 경우 (레거시)
   html = html.replace(/const PROJECTS = \[[\s\S]*?\];/, `const PROJECTS = ${JSON.stringify(projects, null, 2)};`);
-
-  // data.js: POSTS 교체
   html = html.replace(/const POSTS = \[[\s\S]*?\];/, `const POSTS = ${JSON.stringify(posts)};`);
-
   return html;
 }
 
