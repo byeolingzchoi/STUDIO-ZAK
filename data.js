@@ -11,8 +11,8 @@ const PROJECTS = [
     "name": "3A4B",
     "type": "furniture",
     "cat": "Storage",
-    "year": "2023",
     "size": "1180×490×1030mmH",
+    "year": "2023",
     "images": [
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641627044_KakaoTalk_20260315_221124642.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641630095_KakaoTalk_20260315_221124642_02.jpg",
@@ -20,9 +20,9 @@ const PROJECTS = [
     ]
   },
   {
-    "name": "—",
+    "name": "2M",
     "type": "furniture",
-    "cat": "Shelf",
+    "cat": "Table",
     "year": "2023",
     "size": "",
     "images": [
@@ -36,14 +36,26 @@ const PROJECTS = [
     "name": "F retail",
     "type": "interior",
     "cat": "Commercial",
-    "year": "2023",
     "size": "",
+    "year": "2023",
     "images": [
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754189400_3.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754190648_______2026-03-17_222912.png",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754184566_1.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754187146_2.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754209974_5.jpg"
+    ]
+  },
+  {
+    "name": "floating veil",
+    "type": "furniture",
+    "cat": "Table",
+    "year": "2022",
+    "size": "330X500X650",
+    "images": [
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773980370971_KakaoTalk_20260319_213246137.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773980372952_KakaoTalk_20260319_213246137_01.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773980375187_KakaoTalk_20260319_213246137_02.jpg"
     ]
   }
 ];
