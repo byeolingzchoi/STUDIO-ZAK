@@ -247,10 +247,11 @@ body { font-family:var(--f); background:var(--bg); color:var(--b); font-size:13p
             <label>Image</label>
             <input type="file" id="p-file" accept="image/*" style="display:none" onchange="uploadPostImg(this)">
             <div class="upload-row">
-              <button class="btn btn-sm" type="button" onclick="document.getElementById(&quot;p-file&quot;).click()">📁 이미지 업로드</button>
+              <button class="btn btn-sm" type="button" onclick="document.getElementById('p-file').click()">📁 이미지 업로드</button>
               <span id="p-upload-msg" style="font-size:11px;color:var(--m);"></span>
             </div>
-            <input id="p-image" type="text" placeholder="또는 URL 직접 입력" style="margin-top:6px;width:100%;border:1px solid var(--l);padding:9px 11px;font-family:var(--f);font-size:13px;outline:none;">
+            <div class="img-preview-grid" id="post-img-preview" style="margin-top:8px;"></div>
+            <input id="p-image" type="text" placeholder="또는 URL 직접 입력" style="margin-top:6px;width:100%;border:1px solid var(--l);padding:9px 11px;font-family:var(--f);font-size:13px;outline:none;" oninput="syncPostPreview()">
           </div>
           <div class="field" id="p-body-field">
             <label>Content</label>
@@ -953,8 +954,30 @@ function newPost() {
   document.getElementById('post-del-btn').style.display = 'none';
   document.getElementById('post-editor-title').textContent = 'New Post';
   document.getElementById('p-upload-msg').textContent = '';
+  const grid = document.getElementById('post-img-preview');
+  if (grid) grid.innerHTML = '';
   setPostType('note');
   document.getElementById('post-editor').classList.add('on');
+}
+
+function syncPostPreview() {
+  const url = document.getElementById('p-image').value.trim();
+  const grid = document.getElementById('post-img-preview');
+  if (!grid) return;
+  grid.innerHTML = '';
+  if (!url) return;
+  const item = document.createElement('div');
+  item.className = 'img-preview-item';
+  item.style.cursor = 'default';
+  item.innerHTML = `
+    <img src="${url}" onerror="this.parentElement.style.display='none'">
+    <span class="img-del" onclick="clearPostImg()" style="display:block;">×</span>`;
+  grid.appendChild(item);
+}
+
+function clearPostImg() {
+  document.getElementById('p-image').value = '';
+  document.getElementById('post-img-preview').innerHTML = '';
 }
 
 function editPost(i) {
@@ -969,6 +992,7 @@ function editPost(i) {
   document.getElementById('post-editor-title').textContent = 'Edit Post';
   setPostType(p.type || 'note');
   document.getElementById('post-editor').classList.add('on');
+  requestAnimationFrame(() => syncPostPreview());
 }
 
 function savePost() {
@@ -1030,6 +1054,7 @@ async function uploadPostImg(input) {
       const url = `https://raw.githubusercontent.com/${gh.owner}/${gh.repo}/main/images/${fname}`;
       document.getElementById('p-image').value = url;
       msg.textContent = '✓ 완료!';
+      syncPostPreview();
       toast('이미지 업로드됐어요!');
     } else {
       const e = await res.json();
