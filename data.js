@@ -8,42 +8,16 @@
 
 const PROJECTS = [
   {
-    "name": "3A4B",
-    "type": "furniture",
-    "cat": "Storage",
-    "size": "1180×490×1030mmH",
-    "year": "2023",
-    "images": [
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641627044_KakaoTalk_20260315_221124642.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641630095_KakaoTalk_20260315_221124642_02.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641632972_KakaoTalk_20260315_221124642_04.jpg"
-    ]
-  },
-  {
-    "name": "2M",
-    "type": "furniture",
-    "cat": "Table",
-    "year": "2023",
-    "size": "",
-    "images": [
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641870641_KakaoTalk_20260315_221246532_01.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641873204_KakaoTalk_20260315_221246532_02.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641875567_KakaoTalk_20260315_221246532_03.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773641878197_KakaoTalk_20260315_221246532_04.jpg"
-    ]
-  },
-  {
-    "name": "F retail",
+    "name": "desert flagship",
     "type": "interior",
     "cat": "Commercial",
-    "size": "",
     "year": "2023",
+    "size": "",
     "images": [
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754189400_3.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754190648_______2026-03-17_222912.png",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754184566_1.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754187146_2.jpg",
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773754209974_5.jpg"
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069294366_11.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069296631_22.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069298083_33.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069300495_44.jpg"
     ]
   },
   {
