@@ -165,9 +165,8 @@ function initSliderInteractions() {
       position: fixed;
       pointer-events: none;
       z-index: 9999;
-      font-size: 13px;
+      font-size: 22px;
       font-family: 'Inter', sans-serif;
-      letter-spacing: 0.08em;
       color: #111;
       display: none;
       transform: translate(-50%, -50%);
@@ -177,19 +176,23 @@ function initSliderInteractions() {
     slider.addEventListener('mouseenter', () => {
       if (!entry || !entry.classList.contains('expanded')) return;
       slider.style.cursor = 'none';
+      document.getElementById('cursor').style.display = 'none';
       arrow.style.display = 'block';
     });
     slider.addEventListener('mouseleave', () => {
       slider.style.cursor = '';
+      document.getElementById('cursor').style.display = 'block';
       arrow.style.display = 'none';
     });
     slider.addEventListener('mousemove', e => {
       if (!entry || !entry.classList.contains('expanded')) {
         arrow.style.display = 'none';
         slider.style.cursor = '';
+        document.getElementById('cursor').style.display = 'block';
         return;
       }
       slider.style.cursor = 'none';
+      document.getElementById('cursor').style.display = 'none';
       arrow.style.display = 'block';
       arrow.style.left = e.clientX + 'px';
       arrow.style.top = e.clientY + 'px';
