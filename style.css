@@ -133,7 +133,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 /* ── LOGO ── */
 .site-logo {
   position: fixed;
-  top: 28px; left: -5px;
+  top: 28px; left: -15px;
   font-size: 13px; font-weight: 500;
   letter-spacing: 0.08em; text-transform: uppercase;
   z-index: 100; cursor: pointer;
