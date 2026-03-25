@@ -165,13 +165,20 @@ function initSliderInteractions() {
       position: fixed;
       pointer-events: none;
       z-index: 9999;
-      font-size: 22px;
-      font-family: 'Inter', sans-serif;
-      color: #ffffff;
+      width: 44px;
+      height: 44px;
       mix-blend-mode: difference;
       display: none;
       transform: translate(-50%, -50%);
     `;
+    const svgLeft = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="36" y1="22" x2="8" y2="22" stroke="white" stroke-width="1"/>
+      <polyline points="18,12 8,22 18,32" fill="none" stroke="white" stroke-width="1"/>
+    </svg>`;
+    const svgRight = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="8" y1="22" x2="36" y2="22" stroke="white" stroke-width="1"/>
+      <polyline points="26,12 36,22 26,32" fill="none" stroke="white" stroke-width="1"/>
+    </svg>`;
     document.body.appendChild(arrow);
 
     slider.addEventListener('mouseenter', () => {
@@ -198,7 +205,7 @@ function initSliderInteractions() {
       arrow.style.left = e.clientX + 'px';
       arrow.style.top = e.clientY + 'px';
       const rect = slider.getBoundingClientRect();
-      arrow.textContent = e.clientX < rect.left + rect.width / 2 ? '←' : '→';
+      arrow.innerHTML = e.clientX < rect.left + rect.width / 2 ? svgLeft : svgRight;
     });
     slider.addEventListener('click', e => {
       if (isDragging) return;
