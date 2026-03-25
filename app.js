@@ -159,16 +159,51 @@ function initSliderInteractions() {
       if (e.deltaX < -90 || e.deltaY < -90) sPrev(sliderId, total, { stopPropagation: () => {} });
     }, { passive: false });
 
-    // ── 커서 화살표 + 좌우 클릭 이동 ──
-    slider.addEventListener('mousemove', e => {
-      if (!entry || !entry.classList.contains('expanded')) return;
-      const rect = slider.getBoundingClientRect();
-      const half = rect.left + rect.width / 2;
-      slider.style.cursor = e.clientX < half ? 'w-resize' : 'e-resize';
-    });
+    // ── 심플 화살표 오버레이 ──
+    const arrow = document.createElement('div');
+    arrow.style.cssText = `
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.08em;
+      color: #111;
+      display: none;
+      transform: translate(-50%, -50%);
+    `;
+    document.body.appendChild(arrow);
 
+    slider.addEventListener('mouseenter', () => {
+      if (!entry || !entry.classList.contains('expanded')) return;
+      slider.style.cursor = 'none';
+      arrow.style.display = 'block';
+    });
     slider.addEventListener('mouseleave', () => {
       slider.style.cursor = '';
+      arrow.style.display = 'none';
+    });
+    slider.addEventListener('mousemove', e => {
+      if (!entry || !entry.classList.contains('expanded')) {
+        arrow.style.display = 'none';
+        slider.style.cursor = '';
+        return;
+      }
+      slider.style.cursor = 'none';
+      arrow.style.display = 'block';
+      arrow.style.left = e.clientX + 'px';
+      arrow.style.top = e.clientY + 'px';
+      const rect = slider.getBoundingClientRect();
+      arrow.textContent = e.clientX < rect.left + rect.width / 2 ? '←' : '→';
+    });
+    slider.addEventListener('click', e => {
+      if (isDragging) return;
+      if (!entry || !entry.classList.contains('expanded')) return;
+      const rect = slider.getBoundingClientRect();
+      const total = slider.querySelectorAll('.proj-slider-track img').length;
+      const fakeE = { stopPropagation: () => {} };
+      if (e.clientX < rect.left + rect.width / 2) sPrev(sliderId, total, fakeE);
+      else sNext(sliderId, total, fakeE);
     });
 
     // ── 드래그 (마우스) ──
@@ -193,15 +228,8 @@ function initSliderInteractions() {
       dragStartX = null;
     });
     slider.addEventListener('click', e => {
-      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; return; }
-      if (!entry || !entry.classList.contains('expanded')) return;
-      const rect = slider.getBoundingClientRect();
-      const half = rect.left + rect.width / 2;
-      const total = slider.querySelectorAll('.proj-slider-track img').length;
-      const fakeE = { stopPropagation: () => {} };
-      if (e.clientX < half) sPrev(sliderId, total, fakeE);
-      else sNext(sliderId, total, fakeE);
-    }, true);
+      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; }
+    });
 
     // ── 터치 ──
     let touchStartX = null;
