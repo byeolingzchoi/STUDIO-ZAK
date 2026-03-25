@@ -159,6 +159,18 @@ function initSliderInteractions() {
       if (e.deltaX < -90 || e.deltaY < -90) sPrev(sliderId, total, { stopPropagation: () => {} });
     }, { passive: false });
 
+    // ── 커서 화살표 + 좌우 클릭 이동 ──
+    slider.addEventListener('mousemove', e => {
+      if (!entry || !entry.classList.contains('expanded')) return;
+      const rect = slider.getBoundingClientRect();
+      const half = rect.left + rect.width / 2;
+      slider.style.cursor = e.clientX < half ? 'w-resize' : 'e-resize';
+    });
+
+    slider.addEventListener('mouseleave', () => {
+      slider.style.cursor = '';
+    });
+
     // ── 드래그 (마우스) ──
     let dragStartX = null;
     let isDragging = false;
@@ -181,7 +193,14 @@ function initSliderInteractions() {
       dragStartX = null;
     });
     slider.addEventListener('click', e => {
-      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; }
+      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; return; }
+      if (!entry || !entry.classList.contains('expanded')) return;
+      const rect = slider.getBoundingClientRect();
+      const half = rect.left + rect.width / 2;
+      const total = slider.querySelectorAll('.proj-slider-track img').length;
+      const fakeE = { stopPropagation: () => {} };
+      if (e.clientX < half) sPrev(sliderId, total, fakeE);
+      else sNext(sliderId, total, fakeE);
     }, true);
 
     // ── 터치 ──
