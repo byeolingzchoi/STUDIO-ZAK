@@ -643,7 +643,7 @@ async function submitInquiry(e) {
   const status = document.getElementById('iq-status');
   const chips = [...document.querySelectorAll('#inquiry-chips .inquiry-chip.on')].map(c => c.textContent).join(', ') || 'None selected';
 
-  const ACCESS_KEY = 'YOUR_ACCESS_KEY';
+  const ACCESS_KEY = '5931c0f6-b810-4393-a22e-7ecbebe3181a';
 
   btn.disabled = true;
   btn.textContent = 'Sending...';
