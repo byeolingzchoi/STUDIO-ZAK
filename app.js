@@ -81,6 +81,11 @@ function sCollapse(entryId, sliderId, e) {
   e.stopPropagation();
   const entry = document.getElementById(entryId);
   entry.classList.remove('expanded');
+  // 커서 항상 복구
+  const cur = document.getElementById('cursor');
+  if (cur) cur.style.display = 'block';
+  document.querySelectorAll('.proj-slider').forEach(s => s.style.cursor = '');
+  document.querySelectorAll('[id^="arrow-"]').forEach(a => a.style && (a.style.display = 'none'));
   const slider = document.getElementById(sliderId);
   if (slider) {
     slider._idx = 0;
@@ -184,23 +189,26 @@ function initSliderInteractions() {
     slider.addEventListener('mouseenter', () => {
       if (!entry || !entry.classList.contains('expanded')) return;
       slider.style.cursor = 'none';
-      document.getElementById('cursor').style.display = 'none';
+      const cur = document.getElementById('cursor');
+      if (cur) cur.style.display = 'none';
       arrow.style.display = 'block';
     });
     slider.addEventListener('mouseleave', () => {
       slider.style.cursor = '';
-      document.getElementById('cursor').style.display = 'block';
+      const cur = document.getElementById('cursor');
+      if (cur) cur.style.display = 'block';
       arrow.style.display = 'none';
     });
     slider.addEventListener('mousemove', e => {
+      const cur = document.getElementById('cursor');
       if (!entry || !entry.classList.contains('expanded')) {
         arrow.style.display = 'none';
         slider.style.cursor = '';
-        document.getElementById('cursor').style.display = 'block';
+        if (cur) cur.style.display = 'block';
         return;
       }
       slider.style.cursor = 'none';
-      document.getElementById('cursor').style.display = 'none';
+      if (cur) cur.style.display = 'none';
       arrow.style.display = 'block';
       arrow.style.left = e.clientX + 'px';
       arrow.style.top = e.clientY + 'px';
