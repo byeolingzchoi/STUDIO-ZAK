@@ -9,10 +9,9 @@
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background 0.15s ease, opacity 0.15s ease;
+  transition: width 0.2s ease, height 0.2s ease, background 0.15s ease;
   mix-blend-mode: difference;
   top: 0px; left: 0px;
-  opacity: 0;
 }
 #cursor.hover {
   width: 25px; height: 25px;
