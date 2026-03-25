@@ -167,7 +167,8 @@ function initSliderInteractions() {
       z-index: 9999;
       font-size: 22px;
       font-family: 'Inter', sans-serif;
-      color: #111;
+      color: #ffffff;
+      mix-blend-mode: difference;
       display: none;
       transform: translate(-50%, -50%);
     `;
