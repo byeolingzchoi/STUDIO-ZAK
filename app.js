@@ -434,7 +434,6 @@ if (cur) {
   document.addEventListener('mousemove', e => {
     cur.style.left = e.clientX + 'px';
     cur.style.top  = e.clientY + 'px';
-    cur.style.opacity = '1';
   });
   document.addEventListener('mouseover', e => {
     const el = e.target.closest('a, button, [onclick], .proj-slider, .s-arrow, .proj-detail-close');
