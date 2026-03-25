@@ -199,7 +199,19 @@ function initSliderInteractions() {
       if (cur) cur.style.display = 'block';
       arrow.style.display = 'none';
     });
+
+    // ── 드래그 (마우스) ──
+    let dragStartX = null;
+    let isDragging = false;
+    slider.addEventListener('mousedown', e => {
+      dragStartX = e.clientX;
+      isDragging = false;
+    });
     slider.addEventListener('mousemove', e => {
+      // 드래그 감지
+      if (dragStartX !== null && Math.abs(e.clientX - dragStartX) > 8) isDragging = true;
+
+      // 화살표 커서
       const cur = document.getElementById('cursor');
       if (!entry || !entry.classList.contains('expanded')) {
         arrow.style.display = 'none';
@@ -215,26 +227,6 @@ function initSliderInteractions() {
       const rect = slider.getBoundingClientRect();
       arrow.innerHTML = e.clientX < rect.left + rect.width / 2 ? svgLeft : svgRight;
     });
-    slider.addEventListener('click', e => {
-      if (isDragging) return;
-      if (!entry || !entry.classList.contains('expanded')) return;
-      const rect = slider.getBoundingClientRect();
-      const total = slider.querySelectorAll('.proj-slider-track img').length;
-      const fakeE = { stopPropagation: () => {} };
-      if (e.clientX < rect.left + rect.width / 2) sPrev(sliderId, total, fakeE);
-      else sNext(sliderId, total, fakeE);
-    });
-
-    // ── 드래그 (마우스) ──
-    let dragStartX = null;
-    let isDragging = false;
-    slider.addEventListener('mousedown', e => {
-      dragStartX = e.clientX;
-      isDragging = false;
-    });
-    slider.addEventListener('mousemove', e => {
-      if (dragStartX !== null && Math.abs(e.clientX - dragStartX) > 8) isDragging = true;
-    });
     slider.addEventListener('mouseup', e => {
       if (!entry || !entry.classList.contains('expanded') || dragStartX === null) { dragStartX = null; return; }
       const diff = dragStartX - e.clientX;
@@ -247,7 +239,13 @@ function initSliderInteractions() {
       dragStartX = null;
     });
     slider.addEventListener('click', e => {
-      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; }
+      if (isDragging) { e.stopImmediatePropagation(); isDragging = false; return; }
+      if (!entry || !entry.classList.contains('expanded')) return;
+      const rect = slider.getBoundingClientRect();
+      const total = slider.querySelectorAll('.proj-slider-track img').length;
+      const fakeE = { stopPropagation: () => {} };
+      if (e.clientX < rect.left + rect.width / 2) sPrev(sliderId, total, fakeE);
+      else sNext(sliderId, total, fakeE);
     });
 
     // ── 터치 ──
