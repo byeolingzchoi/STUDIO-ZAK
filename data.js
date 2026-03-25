@@ -14,7 +14,7 @@ const PROJECTS = [
     "year": "2023",
     "size": "",
     "images": [
-      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069294366_11.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774416052358_1774069294366_11.png",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069296631_22.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069298083_33.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1774069300495_44.jpg"
