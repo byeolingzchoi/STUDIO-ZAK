@@ -5,7 +5,7 @@
   position: fixed;
   width: 14px; height: 14px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #111111;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
@@ -133,7 +133,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 /* ── LOGO ── */
 .site-logo {
   position: fixed;
-  top: 28px; left: -15px;
+  top: 28px; left: 32px;
   font-size: 13px; font-weight: 500;
   letter-spacing: 0.08em; text-transform: uppercase;
   z-index: 100; cursor: pointer;
@@ -954,20 +954,21 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 .m-viewer-header {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   padding: 14px 20px 10px;
   border-bottom: 0.5px solid #eee;
   gap: 4px;
 }
 .m-viewer-close {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--mid);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--black);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
   font-family: var(--f);
+  font-weight: 400;
 }
 .m-viewer-info {
   width: 100%;
@@ -1003,11 +1004,18 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
 .m-viewer-img-wrap img.fade {
   opacity: 0;
 }
+.m-viewer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 0.5px solid #eee;
+}
 .m-viewer-dots {
   display: flex;
   justify-content: center;
   gap: 6px;
-  padding: 16px;
+  padding: 0;
 }
 .m-viewer-dot {
   width: 5px; height: 5px;
