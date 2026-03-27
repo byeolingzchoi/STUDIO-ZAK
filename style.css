@@ -950,42 +950,8 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   display: flex;
   flex-direction: column;
 }
-/* Close 우측, 제목/메타 그 아래 */
 .m-viewer-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 14px 20px 10px;
-  border-bottom: 0.5px solid #eee;
-  gap: 4px;
-}
-.m-viewer-close {
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  color: var(--black);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: var(--f);
-  font-weight: 400;
-}
-.m-viewer-info {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-.m-viewer-name {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-}
-.m-viewer-meta {
-  font-size: 11px;
-  color: var(--mid);
-  letter-spacing: 0.04em;
+  display: none;
 }
 .m-viewer-img-wrap {
   flex: 1;
@@ -993,6 +959,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 0 20px;
 }
 .m-viewer-img-wrap img {
   width: 100%;
@@ -1005,11 +972,43 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   opacity: 0;
 }
 .m-viewer-footer {
+  padding: 12px 20px 28px;
+  border-top: 0.5px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.m-viewer-footer-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.m-viewer-footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-top: 0.5px solid #eee;
+}
+.m-viewer-name {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.m-viewer-meta {
+  font-size: 11px;
+  color: var(--mid);
+  letter-spacing: 0.04em;
+}
+.m-viewer-close {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--black);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--f);
+  font-weight: 400;
 }
 .m-viewer-dots {
   display: flex;

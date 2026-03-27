@@ -864,34 +864,47 @@ function openMobileViewer(projIdx, type) {
   const overlay = document.createElement('div');
   overlay.id = 'm-viewer-overlay';
   overlay.innerHTML = `
-    <div class="m-viewer-header">
-      <div class="m-viewer-info">
-        <span class="m-viewer-name">${p.name}</span>
-        <span class="m-viewer-meta">${meta}</span>
-      </div>
-    </div>
     <div class="m-viewer-img-wrap" id="m-viewer-img-wrap">
       <img src="${imgs[0]}" alt="${p.name}" id="m-viewer-img">
     </div>
     <div class="m-viewer-footer">
-      <button class="m-viewer-close" onclick="closeMobileViewer()">← Back</button>
-      <div class="m-viewer-dots" id="m-viewer-dots">
-        ${imgs.map((_, i) => `<span class="m-viewer-dot${i===0?' on':''}" onclick="mViewerGo(${i})"></span>`).join('')}
+      <div class="m-viewer-footer-top">
+        <span class="m-viewer-name">${p.name}</span>
+        <span class="m-viewer-meta">${meta}</span>
+      </div>
+      <div class="m-viewer-footer-bottom">
+        <button class="m-viewer-close" onclick="closeMobileViewer()">← Back</button>
+        <div class="m-viewer-dots" id="m-viewer-dots">
+          ${imgs.map((_, i) => `<span class="m-viewer-dot${i===0?' on':''}" onclick="mViewerGo(${i})"></span>`).join('')}
+        </div>
       </div>
     </div>`;
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
-  // 스와이프
+  // 스와이프 + 탭
   let tx = 0;
+  let ty = 0;
   const wrap = document.getElementById('m-viewer-img-wrap');
-  wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchstart', e => {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, { passive: true });
   wrap.addEventListener('touchend', e => {
-    const diff = tx - e.changedTouches[0].clientX;
+    const diffX = tx - e.changedTouches[0].clientX;
+    const diffY = ty - e.changedTouches[0].clientY;
     const cur = window._mViewerCur;
-    if (Math.abs(diff) > 60) {
-      if (diff > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
-      if (diff < 0 && cur > 0) mViewerGo(cur - 1);
+    if (Math.abs(diffX) > 40) {
+      if (diffX > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
+      if (diffX < 0 && cur > 0) mViewerGo(cur - 1);
+    } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+      const rect = wrap.getBoundingClientRect();
+      const tapX = e.changedTouches[0].clientX;
+      if (tapX < rect.left + rect.width / 2) {
+        if (cur > 0) mViewerGo(cur - 1);
+      } else {
+        if (cur < imgs.length - 1) mViewerGo(cur + 1);
+      }
     }
   }, { passive: true });
 
