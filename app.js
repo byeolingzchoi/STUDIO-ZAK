@@ -255,30 +255,19 @@ function initSliderInteractions() {
 
     // ── 터치 ──
     let touchStartX = null;
-    let touchStartY = null;
     slider.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
     }, { passive: true });
     slider.addEventListener('touchend', e => {
-      if (!entry || !entry.classList.contains('expanded') || touchStartX === null) { touchStartX = null; touchStartY = null; return; }
-      const diffX = touchStartX - e.changedTouches[0].clientX;
-      const diffY = touchStartY - e.changedTouches[0].clientY;
+      if (!entry || !entry.classList.contains('expanded') || touchStartX === null) { touchStartX = null; return; }
+      const diff = touchStartX - e.changedTouches[0].clientX;
       const total = slider.querySelectorAll('.proj-slider-track img').length;
-      const fakeE = { stopPropagation: () => {} };
-      if (Math.abs(diffX) > 40) {
-        // 스와이프
-        if (diffX > 0) sNext(sliderId, total, fakeE);
+      if (Math.abs(diff) > 40) {
+        const fakeE = { stopPropagation: () => {} };
+        if (diff > 0) sNext(sliderId, total, fakeE);
         else sPrev(sliderId, total, fakeE);
-      } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
-        // 탭 — 좌우 절반 기준
-        const rect = slider.getBoundingClientRect();
-        const tapX = e.changedTouches[0].clientX;
-        if (tapX < rect.left + rect.width / 2) sPrev(sliderId, total, fakeE);
-        else sNext(sliderId, total, fakeE);
       }
       touchStartX = null;
-      touchStartY = null;
     }, { passive: true });
   });
 }
@@ -483,6 +472,13 @@ function mToggleProject() {
   const item = document.getElementById('m-item-project');
   const arrow = document.getElementById('m-arrow-project');
   const isOpen = item.classList.contains('open');
+  // 다른 항목 모두 닫기
+  if (!isOpen) {
+    ['about', 'archive', 'contact'].forEach(k => {
+      const el = document.getElementById('m-item-' + k);
+      if (el && el.classList.contains('open')) el.classList.remove('open');
+    });
+  }
   item.classList.toggle('open', !isOpen);
   arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
@@ -492,7 +488,17 @@ function mToggle(key) {
   const content = document.getElementById('m-content-' + key);
   const isOpen = item.classList.contains('open');
 
+  // 다른 항목 모두 닫기
   if (!isOpen) {
+    ['about', 'interior', 'furniture', 'archive', 'contact', 'project'].forEach(k => {
+      if (k === key) return;
+      const el = document.getElementById('m-item-' + k);
+      if (el && el.classList.contains('open')) el.classList.remove('open');
+    });
+    // project 화살표도 초기화
+    const arrow = document.getElementById('m-arrow-project');
+    if (arrow && key !== 'interior' && key !== 'furniture') arrow.style.transform = '';
+
     if (key === 'about') {
       const aboutInner = document.querySelector('#page-about .about-inner');
       if (aboutInner) content.innerHTML = aboutInner.outerHTML;
