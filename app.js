@@ -868,10 +868,8 @@ function openMobileViewer(projIdx, type) {
       <img src="${imgs[0]}" alt="${p.name}" id="m-viewer-img">
     </div>
     <div class="m-viewer-footer">
-      <div class="m-viewer-footer-top">
-        <span class="m-viewer-name">${p.name}</span>
-        <span class="m-viewer-meta">${meta}</span>
-      </div>
+      <span class="m-viewer-name">${p.name}</span>
+      <span class="m-viewer-meta">${meta}</span>
       <div class="m-viewer-footer-bottom">
         <button class="m-viewer-close" onclick="closeMobileViewer()">← Back</button>
         <div class="m-viewer-dots" id="m-viewer-dots">

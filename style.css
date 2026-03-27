@@ -950,9 +950,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   display: flex;
   flex-direction: column;
 }
-.m-viewer-header {
-  display: none;
-}
+.m-viewer-header { display: none; }
 .m-viewer-img-wrap {
   flex: 1;
   display: flex;
@@ -968,36 +966,31 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   display: block;
   transition: opacity 0.3s ease;
 }
-.m-viewer-img-wrap img.fade {
-  opacity: 0;
-}
+.m-viewer-img-wrap img.fade { opacity: 0; }
 .m-viewer-footer {
-  padding: 12px 20px 28px;
+  padding: 14px 20px 28px;
   border-top: 0.5px solid #eee;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-.m-viewer-footer-top {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-.m-viewer-footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  gap: 4px;
 }
 .m-viewer-name {
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.06em;
+  display: block;
 }
 .m-viewer-meta {
   font-size: 11px;
   color: var(--mid);
   letter-spacing: 0.04em;
+  display: block;
+}
+.m-viewer-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
 }
 .m-viewer-close {
   font-size: 13px;
@@ -1014,7 +1007,6 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   display: flex;
   justify-content: center;
   gap: 6px;
-  padding: 0;
 }
 .m-viewer-dot {
   width: 5px; height: 5px;
@@ -1023,9 +1015,7 @@ button { background: none; border: none; padding: 0; cursor: pointer; font: inhe
   cursor: pointer;
   transition: background 0.2s;
 }
-.m-viewer-dot.on {
-  background: #111;
-}
+.m-viewer-dot.on { background: #111; }
 
 /* 화살표 완전 제거 */
 .proj-slider-arrows { display: none !important; }
