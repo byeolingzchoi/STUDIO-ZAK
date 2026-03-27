@@ -880,16 +880,31 @@ function openMobileViewer(projIdx, type) {
   document.body.appendChild(overlay);
   document.body.style.overflow = 'hidden';
 
-  // 스와이프
+  // 스와이프 + 탭
   let tx = 0;
+  let ty = 0;
   const wrap = document.getElementById('m-viewer-img-wrap');
-  wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  wrap.addEventListener('touchstart', e => {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, { passive: true });
   wrap.addEventListener('touchend', e => {
-    const diff = tx - e.changedTouches[0].clientX;
+    const diffX = tx - e.changedTouches[0].clientX;
+    const diffY = ty - e.changedTouches[0].clientY;
     const cur = window._mViewerCur;
-    if (Math.abs(diff) > 60) {
-      if (diff > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
-      if (diff < 0 && cur > 0) mViewerGo(cur - 1);
+    if (Math.abs(diffX) > 40) {
+      // 스와이프
+      if (diffX > 0 && cur < imgs.length - 1) mViewerGo(cur + 1);
+      if (diffX < 0 && cur > 0) mViewerGo(cur - 1);
+    } else if (Math.abs(diffX) < 10 && Math.abs(diffY) < 10) {
+      // 탭 — 좌우 절반 기준
+      const rect = wrap.getBoundingClientRect();
+      const tapX = e.changedTouches[0].clientX;
+      if (tapX < rect.left + rect.width / 2) {
+        if (cur > 0) mViewerGo(cur - 1);
+      } else {
+        if (cur < imgs.length - 1) mViewerGo(cur + 1);
+      }
     }
   }, { passive: true });
 
