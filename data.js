@@ -31,6 +31,21 @@ const PROJECTS = [
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773980372952_KakaoTalk_20260319_213246137_01.jpg",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1773980375187_KakaoTalk_20260319_213246137_02.jpg"
     ]
+  },
+  {
+    "name": "pocket house",
+    "type": "interior",
+    "cat": "Residential",
+    "year": "2026",
+    "size": "",
+    "images": [
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032211388_1-1.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032227199_7.png",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032224390_6.png",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032221221_5.png",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032217923_3.png",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032214244_2.png"
+    ]
   }
 ];
 
