@@ -46,6 +46,18 @@ const PROJECTS = [
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032217923_3.png",
       "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1784032214244_2.png"
     ]
+  },
+  {
+    "name": "black pumpkin",
+    "type": "furniture",
+    "cat": "Table",
+    "year": "2026",
+    "size": "720X580X650mmH",
+    "images": [
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1788789969865_1.png",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1788789981381_1.jpg",
+      "https://raw.githubusercontent.com/byeolingzchoi/STUDIO-ZAK/main/images/1788789986229_2.png"
+    ]
   }
 ];
 
